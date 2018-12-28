@@ -13,7 +13,7 @@ using Microsoft.Extensions.Logging;
 
 namespace CCMS.Areas.Identity.Pages.Account
 {
-    [AllowAnonymous]
+    [Authorize]
     public class RegisterModel : PageModel
     {
         private readonly SignInManager<CCMSUser> _signInManager;
@@ -83,7 +83,9 @@ namespace CCMS.Areas.Identity.Pages.Account
                     await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
-                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    //This application will not be public facing, so we do not want self-service user-registration
+                    //As a result, we will [Authorize] this view, and not log them into the system with the new credentials.
+                    //await _signInManager.SignInAsync(user, isPersistent: false);
                     return LocalRedirect(returnUrl);
                 }
                 foreach (var error in result.Errors)
