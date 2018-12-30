@@ -13,8 +13,8 @@ using Microsoft.Extensions.Logging;
 
 namespace CCMS.Areas.Identity.Pages.Account
 {
-    //[AllowAnonymous]
-    [Authorize]
+    [AllowAnonymous]
+    //[Authorize]
     public class RegisterModel : PageModel
     {
         private readonly SignInManager<CCMSUser> _signInManager;
@@ -41,15 +41,15 @@ namespace CCMS.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
-            [DataType(DataType.Text)]
-            [Display(Name = "Full name")]
-            public string Name { get; set; }
+            //[Required]
+            //[DataType(DataType.Text)]
+            //[Display(Name = "Full name")]
+            //public string Name { get; set; }
 
-            [Required]
-            [Display(Name = "Birth Date")]
-            [DataType(DataType.Date)]
-            public DateTime DOB { get; set; }
+            //[Required]
+            //[Display(Name = "Birth Date")]
+            //[DataType(DataType.Date)]
+            //public DateTime DOB { get; set; }
 
             [Required]
             [EmailAddress]
@@ -80,9 +80,9 @@ namespace CCMS.Areas.Identity.Pages.Account
             {
                 var user = new CCMSUser {
                     UserName = Input.Email,
-                    Email = Input.Email,
-                    Name = Input.Name,
-                    DOB = Input.DOB
+                    Email = Input.Email
+                    //Name = Input.Name,
+                    //DOB = Input.DOB
                 };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)

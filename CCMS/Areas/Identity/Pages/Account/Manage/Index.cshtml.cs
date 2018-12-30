@@ -40,15 +40,15 @@ namespace CCMS.Areas.Identity.Pages.Account.Manage
 
         public class InputModel
         {
-            [Required]
-            [DataType(DataType.Text)]
-            [Display(Name = "Full name")]
-            public string Name { get; set; }
+            //[Required]
+            //[DataType(DataType.Text)]
+            //[Display(Name = "Full name")]
+            //public string Name { get; set; }
 
-            [Required]
-            [Display(Name = "Birth Date")]
-            [DataType(DataType.Date)]
-            public DateTime DOB { get; set; }
+            //[Required]
+            //[Display(Name = "Birth Date")]
+            //[DataType(DataType.Date)]
+            //public DateTime DOB { get; set; }
 
             [Required]
             [EmailAddress]
@@ -75,8 +75,8 @@ namespace CCMS.Areas.Identity.Pages.Account.Manage
 
             Input = new InputModel
             {
-                Name = user.Name,
-                DOB = user.DOB,
+                //Name = user.Name,
+                //DOB = user.DOB,
                 Email = email,
                 PhoneNumber = phoneNumber
             };
@@ -99,15 +99,15 @@ namespace CCMS.Areas.Identity.Pages.Account.Manage
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
-            if (Input.Name != user.Name)
-            {
-                user.Name = Input.Name;
-            }
+            //if (Input.Name != user.Name)
+            //{
+            //    user.Name = Input.Name;
+            //}
 
-            if (Input.DOB != user.DOB)
-            {
-                user.DOB = Input.DOB;
-            }
+            //if (Input.DOB != user.DOB)
+            //{
+            //    user.DOB = Input.DOB;
+            //}
 
             var email = await _userManager.GetEmailAsync(user);
             if (Input.Email != email)
