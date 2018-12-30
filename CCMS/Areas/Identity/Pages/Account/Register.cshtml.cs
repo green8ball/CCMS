@@ -13,6 +13,7 @@ using Microsoft.Extensions.Logging;
 
 namespace CCMS.Areas.Identity.Pages.Account
 {
+    //[AllowAnonymous]
     [Authorize]
     public class RegisterModel : PageModel
     {
