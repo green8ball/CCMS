@@ -13,8 +13,8 @@ using Microsoft.Extensions.Logging;
 
 namespace CCMS.Areas.Identity.Pages.Account
 {
-    [AllowAnonymous]
-    //[Authorize]
+    //[AllowAnonymous]
+    [Authorize]
     public class RegisterModel : PageModel
     {
         private readonly SignInManager<CCMSUser> _signInManager;
