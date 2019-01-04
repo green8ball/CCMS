@@ -10,6 +10,8 @@
     <Compile Remove="Migrations\20181230174152_CustomUserData.Designer.cs" />
     <Compile Remove="Migrations\20181230211618_Init.cs" />
     <Compile Remove="Migrations\20181230211618_Init.Designer.cs" />
+    <Compile Remove="Migrations\20190104040248_TimeOff.cs" />
+    <Compile Remove="Migrations\20190104040248_TimeOff.Designer.cs" />
   </ItemGroup>
 
 
@@ -25,6 +27,11 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.0" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Folder Include="ViewModel\" />
   </ItemGroup>
 
 </Project>

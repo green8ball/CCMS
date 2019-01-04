@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CCMS.Migrations
 {
     [DbContext(typeof(CCMSContext))]
-    [Migration("20181230214511_Init")]
-    partial class Init
+    [Migration("20190104040346_TimeOff")]
+    partial class TimeOff
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -90,11 +90,43 @@ namespace CCMS.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId")
-                        .IsUnique()
-                        .HasFilter("[UserId] IS NOT NULL");
+                    b.HasIndex("UserId");
 
-                    b.ToTable("Employee");
+                    b.ToTable("Employees");
+                });
+
+            modelBuilder.Entity("CCMS.Models.TimeOff", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("Date");
+
+                    b.Property<long>("EmployeeId");
+
+                    b.Property<long>("TimeOffCodeId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.HasIndex("TimeOffCodeId");
+
+                    b.ToTable("TimeOffs");
+                });
+
+            modelBuilder.Entity("CCMS.Models.TimeOffCode", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TimeOffCodes");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -214,8 +246,21 @@ namespace CCMS.Migrations
             modelBuilder.Entity("CCMS.Models.Employee", b =>
                 {
                     b.HasOne("CCMS.Areas.Identity.Data.CCMSUser", "CCMSUser")
-                        .WithOne("Employee")
-                        .HasForeignKey("CCMS.Models.Employee", "UserId");
+                        .WithMany()
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("CCMS.Models.TimeOff", b =>
+                {
+                    b.HasOne("CCMS.Models.Employee", "Employee")
+                        .WithMany()
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("CCMS.Models.TimeOffCode", "TimeOffCode")
+                        .WithMany()
+                        .HasForeignKey("TimeOffCodeId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
