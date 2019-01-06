@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CCMS.Migrations
 {
     [DbContext(typeof(CCMSContext))]
-    [Migration("20190104040346_TimeOff")]
-    partial class TimeOff
+    [Migration("20190106201821_ScheduleActivity")]
+    partial class ScheduleActivity
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -95,28 +95,26 @@ namespace CCMS.Migrations
                     b.ToTable("Employees");
                 });
 
-            modelBuilder.Entity("CCMS.Models.TimeOff", b =>
+            modelBuilder.Entity("CCMS.Models.ScheduleActivity", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("Date");
+                    b.Property<DateTime>("ActivityEnd");
 
-                    b.Property<long>("EmployeeId");
+                    b.Property<DateTime>("ActivityStart");
 
-                    b.Property<long>("TimeOffCodeId");
+                    b.Property<long>("ScheduleActivityCodeID");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EmployeeId");
+                    b.HasIndex("ScheduleActivityCodeID");
 
-                    b.HasIndex("TimeOffCodeId");
-
-                    b.ToTable("TimeOffs");
+                    b.ToTable("ScheduleActivities");
                 });
 
-            modelBuilder.Entity("CCMS.Models.TimeOffCode", b =>
+            modelBuilder.Entity("CCMS.Models.ScheduleActivityCode", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -124,9 +122,15 @@ namespace CCMS.Migrations
 
                     b.Property<string>("Name");
 
+                    b.Property<bool>("OT");
+
+                    b.Property<bool>("Open");
+
+                    b.Property<bool>("WorkHours");
+
                     b.HasKey("Id");
 
-                    b.ToTable("TimeOffCodes");
+                    b.ToTable("ScheduleActivityCodes");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -250,16 +254,11 @@ namespace CCMS.Migrations
                         .HasForeignKey("UserId");
                 });
 
-            modelBuilder.Entity("CCMS.Models.TimeOff", b =>
+            modelBuilder.Entity("CCMS.Models.ScheduleActivity", b =>
                 {
-                    b.HasOne("CCMS.Models.Employee", "Employee")
+                    b.HasOne("CCMS.Models.ScheduleActivityCode", "ScheduleActivityCode")
                         .WithMany()
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("CCMS.Models.TimeOffCode", "TimeOffCode")
-                        .WithMany()
-                        .HasForeignKey("TimeOffCodeId")
+                        .HasForeignKey("ScheduleActivityCodeID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

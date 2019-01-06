@@ -17,8 +17,8 @@ namespace CCMS.Models
         }
 
         public DbSet<Employee> Employees { get; set; }
-        public DbSet<TimeOff> TimeOffs { get; set; }
-        public DbSet<TimeOffCode> TimeOffCodes { get; set; }
+        public DbSet<ScheduleActivity> ScheduleActivities { get; set; }
+        public DbSet<ScheduleActivityCode> ScheduleActivityCodes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

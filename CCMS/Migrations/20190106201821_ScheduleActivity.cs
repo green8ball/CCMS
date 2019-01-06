@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CCMS.Migrations
 {
-    public partial class TimeOff : Migration
+    public partial class ScheduleActivity : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -48,16 +48,19 @@ namespace CCMS.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TimeOffCodes",
+                name: "ScheduleActivityCodes",
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(nullable: true),
+                    Open = table.Column<bool>(nullable: false),
+                    OT = table.Column<bool>(nullable: false),
+                    WorkHours = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TimeOffCodes", x => x.Id);
+                    table.PrimaryKey("PK_ScheduleActivityCodes", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -190,28 +193,22 @@ namespace CCMS.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TimeOffs",
+                name: "ScheduleActivities",
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    EmployeeId = table.Column<long>(nullable: false),
-                    Date = table.Column<DateTime>(nullable: false),
-                    TimeOffCodeId = table.Column<long>(nullable: false)
+                    ScheduleActivityCodeID = table.Column<long>(nullable: false),
+                    ActivityStart = table.Column<DateTime>(nullable: false),
+                    ActivityEnd = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TimeOffs", x => x.Id);
+                    table.PrimaryKey("PK_ScheduleActivities", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_TimeOffs_Employees_EmployeeId",
-                        column: x => x.EmployeeId,
-                        principalTable: "Employees",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_TimeOffs_TimeOffCodes_TimeOffCodeId",
-                        column: x => x.TimeOffCodeId,
-                        principalTable: "TimeOffCodes",
+                        name: "FK_ScheduleActivities_ScheduleActivityCodes_ScheduleActivityCodeID",
+                        column: x => x.ScheduleActivityCodeID,
+                        principalTable: "ScheduleActivityCodes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -261,14 +258,9 @@ namespace CCMS.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TimeOffs_EmployeeId",
-                table: "TimeOffs",
-                column: "EmployeeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TimeOffs_TimeOffCodeId",
-                table: "TimeOffs",
-                column: "TimeOffCodeId");
+                name: "IX_ScheduleActivities_ScheduleActivityCodeID",
+                table: "ScheduleActivities",
+                column: "ScheduleActivityCodeID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -289,19 +281,19 @@ namespace CCMS.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "TimeOffs");
+                name: "Employees");
+
+            migrationBuilder.DropTable(
+                name: "ScheduleActivities");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Employees");
-
-            migrationBuilder.DropTable(
-                name: "TimeOffCodes");
-
-            migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "ScheduleActivityCodes");
         }
     }
 }
