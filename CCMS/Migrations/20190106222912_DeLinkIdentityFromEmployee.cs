@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CCMS.Migrations
 {
-    public partial class ScheduleActivity : Migration
+    public partial class DeLinkIdentityFromEmployee : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -48,12 +48,30 @@ namespace CCMS.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Employees",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    FirstName = table.Column<string>(nullable: true),
+                    LastName = table.Column<string>(nullable: true),
+                    MiddleName = table.Column<string>(nullable: true),
+                    HireDate = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Employees", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ScheduleActivityCodes",
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
+                    Priority = table.Column<long>(nullable: false),
                     Open = table.Column<bool>(nullable: false),
                     OT = table.Column<bool>(nullable: false),
                     WorkHours = table.Column<bool>(nullable: false)
@@ -170,41 +188,23 @@ namespace CCMS.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Employees",
-                columns: table => new
-                {
-                    Id = table.Column<long>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    UserId = table.Column<string>(nullable: true),
-                    FirstName = table.Column<string>(nullable: true),
-                    LastName = table.Column<string>(nullable: true),
-                    MiddleName = table.Column<string>(nullable: true),
-                    HireDate = table.Column<DateTime>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Employees", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Employees_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "ScheduleActivities",
                 columns: table => new
                 {
-                    Id = table.Column<long>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    EmployeeID = table.Column<long>(nullable: false),
                     ScheduleActivityCodeID = table.Column<long>(nullable: false),
                     ActivityStart = table.Column<DateTime>(nullable: false),
                     ActivityEnd = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ScheduleActivities", x => x.Id);
+                    table.PrimaryKey("PK_ScheduleActivities", x => new { x.EmployeeID, x.ScheduleActivityCodeID });
+                    table.ForeignKey(
+                        name: "FK_ScheduleActivities_Employees_EmployeeID",
+                        column: x => x.EmployeeID,
+                        principalTable: "Employees",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_ScheduleActivities_ScheduleActivityCodes_ScheduleActivityCodeID",
                         column: x => x.ScheduleActivityCodeID,
@@ -253,11 +253,6 @@ namespace CCMS.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Employees_UserId",
-                table: "Employees",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_ScheduleActivities_ScheduleActivityCodeID",
                 table: "ScheduleActivities",
                 column: "ScheduleActivityCodeID");
@@ -281,9 +276,6 @@ namespace CCMS.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Employees");
-
-            migrationBuilder.DropTable(
                 name: "ScheduleActivities");
 
             migrationBuilder.DropTable(
@@ -291,6 +283,9 @@ namespace CCMS.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Employees");
 
             migrationBuilder.DropTable(
                 name: "ScheduleActivityCodes");

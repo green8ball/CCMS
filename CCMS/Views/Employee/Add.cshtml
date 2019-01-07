@@ -1,0 +1,25 @@
+﻿
+@{
+    ViewData["Title"] = "Add";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Add</h1>
+
+<form action="javascript:void(0);" method="POST" onsubmit="addEmployee()">
+    <input type="text" id="add-fname" placeholder="First Name">
+    <input type="text" id="add-mname" placeholder="Middle Name (optional)">
+    <input type="text" id="add-lname" placeholder="Last Name">
+    <input type="date" id="add-hire-date" placeholder="Date of Hire">
+</form>
+
+<table>
+    <tr>
+        <th>First Name</th>
+        <th>Middle Name</th>
+        <th>Last Name</th>
+        <th>Date of Hire</th>
+    </tr>
+    <tbody id="employees"></tbody>
+</table>
+<script src="~/js/site.js"></script>

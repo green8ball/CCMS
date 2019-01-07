@@ -1,0 +1,101 @@
+﻿
+@{
+    ViewData["Title"] = "Playground";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Playground</h1>
+
+@*<form action="javascript:void(0);" method="POST" onsubmit="addEmployee()">
+    <input type="text" id="add-fname" placeholder="First Name">
+    <input type="text" id="add-mname" placeholder="Middle Name (optional)">
+    <input type="text" id="add-lname" placeholder="Last Name">
+    <input type="date" id="add-hire-date" placeholder="Date of Hire">
+    <input type="submit" value="Add" />
+</form>*@
+
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addModal">Add Employee</button>
+
+<table class="table">
+    <tr>
+        <th>First Name</th>
+        <th>Middle Name</th>
+        <th>Last Name</th>
+        <th>Date of Hire</th>
+    </tr>
+    <tbody id="employees"></tbody>
+</table>
+
+<div class="modal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Edit Employee</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="edit-fname" class="col-form-label">First Name</label>
+                        <input type="text" class="form-control" id="edit-fname">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-mname" class="col-form-label">Middle Name</label>
+                        <input type="text" class="form-control" id="edit-mname">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-lname" class="col-form-label">Last Name</label>
+                        <input type="text" class="form-control" id="edit-lname">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-hire-date" class="col-form-label">Date of Hire</label>
+                        <input type="date" class="form-control" id="edit-hire-date">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addModal">Add Employee</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="add-fname" class="col-form-label">First Name</label>
+                        <input type="text" class="form-control" id="add-fname">
+                    </div>
+                    <div class="form-group">
+                        <label for="add-mname" class="col-form-label">Middle Name</label>
+                        <input type="text" class="form-control" id="add-mname">
+                    </div>
+                    <div class="form-group">
+                        <label for="add-lname" class="col-form-label">Last Name</label>
+                        <input type="text" class="form-control" id="add-lname">
+                    </div>
+                    <div class="form-group">
+                        <label for="add-hire-date" class="col-form-label">Date of Hire</label>
+                        <input type="date" class="form-control" id="add-hire-date">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="addEmployee()">Add</button>
+            </div>
+        </div>
+    </div>
+</div>

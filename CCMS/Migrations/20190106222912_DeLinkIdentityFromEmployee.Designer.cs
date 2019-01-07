@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CCMS.Migrations
 {
     [DbContext(typeof(CCMSContext))]
-    [Migration("20190106201821_ScheduleActivity")]
-    partial class ScheduleActivity
+    [Migration("20190106222912_DeLinkIdentityFromEmployee")]
+    partial class DeLinkIdentityFromEmployee
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -86,28 +86,22 @@ namespace CCMS.Migrations
 
                     b.Property<string>("MiddleName");
 
-                    b.Property<string>("UserId");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Employees");
                 });
 
             modelBuilder.Entity("CCMS.Models.ScheduleActivity", b =>
                 {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<long>("EmployeeID");
+
+                    b.Property<long>("ScheduleActivityCodeID");
 
                     b.Property<DateTime>("ActivityEnd");
 
                     b.Property<DateTime>("ActivityStart");
 
-                    b.Property<long>("ScheduleActivityCodeID");
-
-                    b.HasKey("Id");
+                    b.HasKey("EmployeeID", "ScheduleActivityCodeID");
 
                     b.HasIndex("ScheduleActivityCodeID");
 
@@ -120,11 +114,15 @@ namespace CCMS.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Description");
+
                     b.Property<string>("Name");
 
                     b.Property<bool>("OT");
 
                     b.Property<bool>("Open");
+
+                    b.Property<long>("Priority");
 
                     b.Property<bool>("WorkHours");
 
@@ -247,15 +245,13 @@ namespace CCMS.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("CCMS.Models.Employee", b =>
-                {
-                    b.HasOne("CCMS.Areas.Identity.Data.CCMSUser", "CCMSUser")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-                });
-
             modelBuilder.Entity("CCMS.Models.ScheduleActivity", b =>
                 {
+                    b.HasOne("CCMS.Models.Employee", "Employee")
+                        .WithMany()
+                        .HasForeignKey("EmployeeID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("CCMS.Models.ScheduleActivityCode", "ScheduleActivityCode")
                         .WithMany()
                         .HasForeignKey("ScheduleActivityCodeID")

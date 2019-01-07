@@ -10,13 +10,16 @@ namespace CCMS.Models
     public class Employee
     {
         public long Id { get; set; }
-        [ForeignKey("CCMSUser")]
-        public string UserId { get; set; }
-        public CCMSUser CCMSUser { get; set; }
-
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string MiddleName { get; set; }
+
+        [Column(TypeName ="date")]
         public DateTime HireDate { get; set; }
+        
+        //We need to link the employee to the account in some way, however for testing purposes we will disable this link
+        //[ForeignKey("CCMSUser")]
+        //public string UserId { get; set; }
+        //public CCMSUser CCMSUser { get; set; }
     }
 }

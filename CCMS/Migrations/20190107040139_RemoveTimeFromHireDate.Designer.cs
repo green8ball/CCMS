@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CCMS.Migrations
 {
     [DbContext(typeof(CCMSContext))]
-    [Migration("20190106202928_ScheduleActivity2")]
-    partial class ScheduleActivity2
+    [Migration("20190107040139_RemoveTimeFromHireDate")]
+    partial class RemoveTimeFromHireDate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -80,34 +80,29 @@ namespace CCMS.Migrations
 
                     b.Property<string>("FirstName");
 
-                    b.Property<DateTime>("HireDate");
+                    b.Property<DateTime>("HireDate")
+                        .HasColumnType("date");
 
                     b.Property<string>("LastName");
 
                     b.Property<string>("MiddleName");
 
-                    b.Property<string>("UserId");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Employees");
                 });
 
             modelBuilder.Entity("CCMS.Models.ScheduleActivity", b =>
                 {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<long>("EmployeeID");
+
+                    b.Property<long>("ScheduleActivityCodeID");
 
                     b.Property<DateTime>("ActivityEnd");
 
                     b.Property<DateTime>("ActivityStart");
 
-                    b.Property<long>("ScheduleActivityCodeID");
-
-                    b.HasKey("Id");
+                    b.HasKey("EmployeeID", "ScheduleActivityCodeID");
 
                     b.HasIndex("ScheduleActivityCodeID");
 
@@ -251,15 +246,13 @@ namespace CCMS.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("CCMS.Models.Employee", b =>
-                {
-                    b.HasOne("CCMS.Areas.Identity.Data.CCMSUser", "CCMSUser")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-                });
-
             modelBuilder.Entity("CCMS.Models.ScheduleActivity", b =>
                 {
+                    b.HasOne("CCMS.Models.Employee", "Employee")
+                        .WithMany()
+                        .HasForeignKey("EmployeeID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("CCMS.Models.ScheduleActivityCode", "ScheduleActivityCode")
                         .WithMany()
                         .HasForeignKey("ScheduleActivityCodeID")

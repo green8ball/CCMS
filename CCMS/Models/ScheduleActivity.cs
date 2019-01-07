@@ -8,7 +8,9 @@ namespace CCMS.Models
 {
     public class ScheduleActivity
     {
-        public long Id { get; set; }
+        [ForeignKey("Employee")]
+        public long EmployeeID { get; set; }
+        public Employee Employee { get; set; }
         [ForeignKey("ScheduleActivityCode")]
         public long ScheduleActivityCodeID { get; set; }
         public ScheduleActivityCode ScheduleActivityCode { get; set; }
