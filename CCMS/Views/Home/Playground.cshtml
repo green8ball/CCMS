@@ -38,6 +38,9 @@
             <div class="modal-body">
                 <form>
                     <div class="form-group">
+                        <input type="hidden" class="form-control" id="edit-id">
+                    </div>
+                    <div class="form-group">
                         <label for="edit-fname" class="col-form-label">First Name</label>
                         <input type="text" class="form-control" id="edit-fname">
                     </div>
@@ -57,7 +60,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save</button>
+                <button type="button" class="btn btn-primary" onclick="editEmployee()">Save</button>
             </div>
         </div>
     </div>
