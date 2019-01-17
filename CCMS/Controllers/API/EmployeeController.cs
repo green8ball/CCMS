@@ -12,7 +12,8 @@ namespace CCMS.Controllers.API
 {
     [Route("api/[controller]")]
     [ApiController]
-    [AllowAnonymous]
+    [Authorize]
+    //[AllowAnonymous]
     public class EmployeeController : ControllerBase
     {
         private readonly CCMSContext _context;
