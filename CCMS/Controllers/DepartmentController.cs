@@ -38,7 +38,8 @@ namespace CCMS.Controllers
             {
                 Department newDepartment = new Department
                 {
-                    Name = addDepartmentViewModel.Name
+                    Name = addDepartmentViewModel.Name,
+                    Description = addDepartmentViewModel.Description
                 };
                 _context.Departments.Add(newDepartment);
                 _context.SaveChanges();

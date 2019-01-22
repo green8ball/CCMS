@@ -16,7 +16,7 @@ namespace CCMS.Models
         
         [ForeignKey("Department")]
         public long DepartmentId { get; set; }
-        public string Department { get; set; }
+        public Department Department { get; set; }
 
         [Column(TypeName ="date")]
         public DateTime HireDate { get; set; }
