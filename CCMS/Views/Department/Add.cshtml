@@ -1,0 +1,21 @@
+﻿@model CCMS.ViewModel.AddDepartmentViewModel
+@{
+    ViewData["Title"] = "Add";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Add Department</h1>
+
+<div asp-validation-summary="All"></div>
+
+<form asp-controller="Department" asp-action="Add" method="post">
+
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input class="form-control" asp-for="Name" />
+        <span asp-validation-for="Name"></span>
+    </div>
+
+    <input type="submit" value="Add Department" />
+
+</form>

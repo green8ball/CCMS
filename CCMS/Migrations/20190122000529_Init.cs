@@ -4,10 +4,25 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CCMS.Migrations
 {
-    public partial class DeLinkIdentityFromEmployee : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Allotments",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Date = table.Column<DateTime>(type: "date", nullable: false),
+                    Allowed = table.Column<int>(nullable: false),
+                    Taken = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Allotments", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -48,6 +63,19 @@ namespace CCMS.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Departments",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Departments", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Employees",
                 columns: table => new
                 {
@@ -56,29 +84,13 @@ namespace CCMS.Migrations
                     FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
                     MiddleName = table.Column<string>(nullable: true),
-                    HireDate = table.Column<DateTime>(nullable: false)
+                    DepartmentId = table.Column<long>(nullable: false),
+                    Department = table.Column<string>(nullable: true),
+                    HireDate = table.Column<DateTime>(type: "date", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Employees", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ScheduleActivityCodes",
-                columns: table => new
-                {
-                    Id = table.Column<long>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: true),
-                    Description = table.Column<string>(nullable: true),
-                    Priority = table.Column<long>(nullable: false),
-                    Open = table.Column<bool>(nullable: false),
-                    OT = table.Column<bool>(nullable: false),
-                    WorkHours = table.Column<bool>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ScheduleActivityCodes", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -188,27 +200,25 @@ namespace CCMS.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ScheduleActivities",
+                name: "DepartmentAllotments",
                 columns: table => new
                 {
-                    EmployeeID = table.Column<long>(nullable: false),
-                    ScheduleActivityCodeID = table.Column<long>(nullable: false),
-                    ActivityStart = table.Column<DateTime>(nullable: false),
-                    ActivityEnd = table.Column<DateTime>(nullable: false)
+                    DepartmentID = table.Column<long>(nullable: false),
+                    AllotmentID = table.Column<long>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ScheduleActivities", x => new { x.EmployeeID, x.ScheduleActivityCodeID });
+                    table.PrimaryKey("PK_DepartmentAllotments", x => new { x.AllotmentID, x.DepartmentID });
                     table.ForeignKey(
-                        name: "FK_ScheduleActivities_Employees_EmployeeID",
-                        column: x => x.EmployeeID,
-                        principalTable: "Employees",
+                        name: "FK_DepartmentAllotments_Allotments_AllotmentID",
+                        column: x => x.AllotmentID,
+                        principalTable: "Allotments",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ScheduleActivities_ScheduleActivityCodes_ScheduleActivityCodeID",
-                        column: x => x.ScheduleActivityCodeID,
-                        principalTable: "ScheduleActivityCodes",
+                        name: "FK_DepartmentAllotments_Departments_DepartmentID",
+                        column: x => x.DepartmentID,
+                        principalTable: "Departments",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -253,9 +263,9 @@ namespace CCMS.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ScheduleActivities_ScheduleActivityCodeID",
-                table: "ScheduleActivities",
-                column: "ScheduleActivityCodeID");
+                name: "IX_DepartmentAllotments_DepartmentID",
+                table: "DepartmentAllotments",
+                column: "DepartmentID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -276,7 +286,10 @@ namespace CCMS.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "ScheduleActivities");
+                name: "DepartmentAllotments");
+
+            migrationBuilder.DropTable(
+                name: "Employees");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -285,10 +298,10 @@ namespace CCMS.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Employees");
+                name: "Allotments");
 
             migrationBuilder.DropTable(
-                name: "ScheduleActivityCodes");
+                name: "Departments");
         }
     }
 }

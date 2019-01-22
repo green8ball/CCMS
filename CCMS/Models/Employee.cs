@@ -13,6 +13,10 @@ namespace CCMS.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string MiddleName { get; set; }
+        
+        [ForeignKey("Department")]
+        public long DepartmentId { get; set; }
+        public string Department { get; set; }
 
         [Column(TypeName ="date")]
         public DateTime HireDate { get; set; }

@@ -70,11 +70,59 @@ namespace CCMS.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("CCMS.Models.Allotment", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Allowed");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("date");
+
+                    b.Property<int>("Taken");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Allotments");
+                });
+
+            modelBuilder.Entity("CCMS.Models.Department", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Departments");
+                });
+
+            modelBuilder.Entity("CCMS.Models.DepartmentAllotment", b =>
+                {
+                    b.Property<long>("AllotmentID");
+
+                    b.Property<long>("DepartmentID");
+
+                    b.HasKey("AllotmentID", "DepartmentID");
+
+                    b.HasIndex("DepartmentID");
+
+                    b.ToTable("DepartmentAllotments");
+                });
+
             modelBuilder.Entity("CCMS.Models.Employee", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Department");
+
+                    b.Property<long>("DepartmentId");
 
                     b.Property<string>("FirstName");
 
@@ -88,46 +136,6 @@ namespace CCMS.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Employees");
-                });
-
-            modelBuilder.Entity("CCMS.Models.ScheduleActivity", b =>
-                {
-                    b.Property<long>("EmployeeID");
-
-                    b.Property<long>("ScheduleActivityCodeID");
-
-                    b.Property<DateTime>("ActivityEnd");
-
-                    b.Property<DateTime>("ActivityStart");
-
-                    b.HasKey("EmployeeID", "ScheduleActivityCodeID");
-
-                    b.HasIndex("ScheduleActivityCodeID");
-
-                    b.ToTable("ScheduleActivities");
-                });
-
-            modelBuilder.Entity("CCMS.Models.ScheduleActivityCode", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Description");
-
-                    b.Property<string>("Name");
-
-                    b.Property<bool>("OT");
-
-                    b.Property<bool>("Open");
-
-                    b.Property<long>("Priority");
-
-                    b.Property<bool>("WorkHours");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ScheduleActivityCodes");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -244,16 +252,16 @@ namespace CCMS.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("CCMS.Models.ScheduleActivity", b =>
+            modelBuilder.Entity("CCMS.Models.DepartmentAllotment", b =>
                 {
-                    b.HasOne("CCMS.Models.Employee", "Employee")
+                    b.HasOne("CCMS.Models.Allotment", "Allotment")
                         .WithMany()
-                        .HasForeignKey("EmployeeID")
+                        .HasForeignKey("AllotmentID")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("CCMS.Models.ScheduleActivityCode", "ScheduleActivityCode")
+                    b.HasOne("CCMS.Models.Department", "Department")
                         .WithMany()
-                        .HasForeignKey("ScheduleActivityCodeID")
+                        .HasForeignKey("DepartmentID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
