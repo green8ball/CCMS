@@ -13,5 +13,7 @@ namespace CCMS.Models
         public DateTime Date { get; set; }
         public int Allowed { get; set; }
         public int Taken { get; set; }
+
+        public IList<DepartmentAllotment> DepartmentAllotments { get; set; }
     }
 }

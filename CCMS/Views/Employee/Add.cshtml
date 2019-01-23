@@ -1,25 +1,38 @@
-﻿
+﻿@model CCMS.ViewModel.AddEmployeeViewModel
 @{
     ViewData["Title"] = "Add";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Add</h1>
+<h1>Add Employee</h1>
 
-<form action="javascript:void(0);" method="POST" onsubmit="addEmployee()">
-    <input type="text" id="add-fname" placeholder="First Name">
-    <input type="text" id="add-mname" placeholder="Middle Name (optional)">
-    <input type="text" id="add-lname" placeholder="Last Name">
-    <input type="date" id="add-hire-date" placeholder="Date of Hire">
+<form asp-controller="Employee" asp-action="Add" method="post">
+
+    <div class="form-group">
+        <label asp-for="FirstName"></label>
+        <input class="form-control" asp-for="FirstName" />
+        <span asp-validation-for="FirstName"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="MiddleName"></label>
+        <input class="form-control" asp-for="MiddleName" />
+        <span asp-validation-for="MiddleName"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="LastName"></label>
+        <input class="form-control" asp-for="LastName" />
+        <span asp-validation-for="LastName"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="HireDate"></label>
+        <input class="form-control" type="date" asp-for="HireDate" />
+        <span asp-validation-for="HireDate"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Departments">Department</label>
+        <select asp-for="DepartmentId" asp-items="Model.Departments"></select>
+    </div>
+
+    <input type="submit" value="Add Employee" />
+
 </form>
-
-<table>
-    <tr>
-        <th>First Name</th>
-        <th>Middle Name</th>
-        <th>Last Name</th>
-        <th>Date of Hire</th>
-    </tr>
-    <tbody id="employees"></tbody>
-</table>
-<script src="~/js/site.js"></script>

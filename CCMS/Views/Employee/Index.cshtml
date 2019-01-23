@@ -1,0 +1,31 @@
+﻿@model List<CCMS.Models.Employee>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Employees</h1>
+<p><a asp-controller="Employee" asp-action="Add">Add Employee</a></p>
+<table class="table">
+    <tr>
+        <th>ID</th>
+        <th>First Name</th>
+        <th>Middle Name</th>
+        <th>Last Name</th>
+        <th>Hire Date</th>
+        <th>Department</th>
+    </tr>
+    <tbody id="Employees">
+        @foreach (var employee in Model)
+        {
+            <tr>
+                <td>@employee.Id</td>
+                <td>@employee.FirstName</td>
+                <td>@employee.MiddleName</td>
+                <td>@employee.LastName</td>
+                <td>@employee.HireDate</td>
+                <td>@employee.Department.Name</td>
+            </tr>
+        }
+    </tbody>
+</table>

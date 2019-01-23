@@ -11,5 +11,7 @@ namespace CCMS.Models
         public string Name { get; set; }
         public string Description { get; set; }
         public IList<Employee> Employees { get; set; }
+
+        public IList<DepartmentAllotment> DepartmentAllotments { get; set; }
     }
 }
