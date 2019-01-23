@@ -127,7 +127,7 @@ namespace CCMS.Migrations
                     b.Property<string>("FirstName");
 
                     b.Property<DateTime>("HireDate")
-                        .HasColumnType("date");
+                        .HasColumnType("Date");
 
                     b.Property<string>("LastName");
 

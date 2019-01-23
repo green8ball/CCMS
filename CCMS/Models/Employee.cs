@@ -1,6 +1,7 @@
 ﻿using CCMS.Areas.Identity.Data;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,7 +19,7 @@ namespace CCMS.Models
         public long DepartmentId { get; set; }
         public Department Department { get; set; }
 
-        [Column(TypeName ="date")]
+        [Column(TypeName = "Date")]
         public DateTime HireDate { get; set; }
         
         //We need to link the employee to the account in some way, however for testing purposes we will disable this link

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CCMS.Migrations
 {
     [DbContext(typeof(CCMSContext))]
-    [Migration("20190123003537_Init")]
+    [Migration("20190123030118_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -129,7 +129,7 @@ namespace CCMS.Migrations
                     b.Property<string>("FirstName");
 
                     b.Property<DateTime>("HireDate")
-                        .HasColumnType("date");
+                        .HasColumnType("Date");
 
                     b.Property<string>("LastName");
 

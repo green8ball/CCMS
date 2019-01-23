@@ -27,6 +27,8 @@ namespace CCMS.ViewModel
 
         [Required(ErrorMessage ="Employee must have a hire date")]
         [Display(Name ="Hire Date")]
+        [DataType(DataType.Date)]
+        //[Column(TypeName = "Date")]
         public DateTime HireDate { get; set; }
 
         public List<SelectListItem> Departments { get; set; }

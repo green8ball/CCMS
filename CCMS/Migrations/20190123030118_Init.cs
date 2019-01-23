@@ -216,7 +216,7 @@ namespace CCMS.Migrations
                     LastName = table.Column<string>(nullable: true),
                     MiddleName = table.Column<string>(nullable: true),
                     DepartmentId = table.Column<long>(nullable: false),
-                    HireDate = table.Column<DateTime>(type: "date", nullable: false)
+                    HireDate = table.Column<DateTime>(type: "Date", nullable: false)
                 },
                 constraints: table =>
                 {
