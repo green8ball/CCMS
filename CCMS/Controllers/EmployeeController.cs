@@ -21,7 +21,7 @@ namespace CCMS.Controllers
         public IActionResult Index()
         {
             ViewBag.Title = "Employee";
-            List<Employee> employees = _context.Employees.Include(d => d.Department).ToList();
+            List<Employee> employees = _context.Employees.Include(e => e.Department).ToList();
             return View(employees);
         }
 

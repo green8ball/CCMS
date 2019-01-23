@@ -13,8 +13,8 @@ namespace CCMS.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string MiddleName { get; set; }
-        
-        [ForeignKey("Department")]
+
+        //[ForeignKey("Department")]
         public long DepartmentId { get; set; }
         public Department Department { get; set; }
 
