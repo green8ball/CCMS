@@ -57,5 +57,7 @@ namespace CCMS.Controllers
 
             return View(addEmployeeViewModel);
         }
+
+        //public IActionResult Update()
     }
 }
