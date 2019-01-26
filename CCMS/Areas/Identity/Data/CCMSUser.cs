@@ -10,5 +10,7 @@ namespace CCMS.Areas.Identity.Data
     // Add profile data for application users by adding properties to the CCMSUser class
     public class CCMSUser : IdentityUser
     {
+        public long EmployeeId { get; set; }
+        public Employee Employee { get; set; }
     }
 }

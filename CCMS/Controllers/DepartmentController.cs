@@ -9,7 +9,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CCMS.Controllers
 {
-    [Authorize]
+    [AllowAnonymous]
+    //[Authorize]
     public class DepartmentController : Controller
     {
         private readonly CCMSContext _context;
@@ -17,6 +18,15 @@ namespace CCMS.Controllers
         public DepartmentController(CCMSContext context)
         {
             _context = context;
+            if (_context.Departments.ToList().Count() == 0)
+            {
+                _context.Departments.Add(new Department
+                {
+                    Name = "Temp",
+                    Description = "Temp"
+                });
+                _context.SaveChanges();
+            }
         }
 
         public IActionResult Index()

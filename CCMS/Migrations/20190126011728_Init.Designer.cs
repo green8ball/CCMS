@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CCMS.Migrations
 {
     [DbContext(typeof(CCMSContext))]
-    [Migration("20190123030118_Init")]
+    [Migration("20190126011728_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -36,6 +36,8 @@ namespace CCMS.Migrations
 
                     b.Property<bool>("EmailConfirmed");
 
+                    b.Property<long>("EmployeeId");
+
                     b.Property<bool>("LockoutEnabled");
 
                     b.Property<DateTimeOffset?>("LockoutEnd");
@@ -60,6 +62,8 @@ namespace CCMS.Migrations
                         .HasMaxLength(256);
 
                     b.HasKey("Id");
+
+                    b.HasIndex("EmployeeId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasName("EmailIndex");
@@ -254,6 +258,14 @@ namespace CCMS.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("CCMS.Areas.Identity.Data.CCMSUser", b =>
+                {
+                    b.HasOne("CCMS.Models.Employee", "Employee")
+                        .WithMany()
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("CCMS.Models.DepartmentAllotment", b =>

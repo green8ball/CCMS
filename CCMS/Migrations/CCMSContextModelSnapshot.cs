@@ -34,6 +34,8 @@ namespace CCMS.Migrations
 
                     b.Property<bool>("EmailConfirmed");
 
+                    b.Property<long>("EmployeeId");
+
                     b.Property<bool>("LockoutEnabled");
 
                     b.Property<DateTimeOffset?>("LockoutEnd");
@@ -58,6 +60,8 @@ namespace CCMS.Migrations
                         .HasMaxLength(256);
 
                     b.HasKey("Id");
+
+                    b.HasIndex("EmployeeId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasName("EmailIndex");
@@ -252,6 +256,14 @@ namespace CCMS.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("CCMS.Areas.Identity.Data.CCMSUser", b =>
+                {
+                    b.HasOne("CCMS.Models.Employee", "Employee")
+                        .WithMany()
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("CCMS.Models.DepartmentAllotment", b =>
