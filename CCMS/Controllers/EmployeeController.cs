@@ -39,41 +39,41 @@ namespace CCMS.Controllers
             _logger = logger;
             _emailSender = emailSender;
 
-            //if (_context.Employees.ToList().Count == 0)
-            //{
-            //    if (_context.Departments.ToList().Count() == 0)
-            //    {
-            //        _context.Departments.Add(new Department
-            //        {
-            //            Name = "Temp",
-            //            Description = "Temp"
-            //        });
-            //        _context.SaveChanges();
-            //    }
+            //create default login
+            if (_context.Employees.ToList().Count == 0)
+            {
+                if (_context.Departments.ToList().Count() == 0)
+                {
+                    _context.Departments.Add(new Department
+                    {
+                        Name = "Temp",
+                        Description = "Temp"
+                    });
+                    _context.SaveChanges();
+                }
 
-            //    Employee newEmployee = new Employee
-            //    {
-            //        FirstName = "Joshua",
-            //        MiddleName = "Ryan",
-            //        LastName = "Ortmann",
-            //        HireDate = DateTime.Parse("2018-08-27"),
-            //        Department = _context.Departments.Single(d => d.Name == "Temp")
-            //    };
+                Employee newEmployee = new Employee
+                {
+                    FirstName = "Joshua",
+                    MiddleName = "Ryan",
+                    LastName = "Ortmann",
+                    HireDate = DateTime.Parse("2018-08-27"),
+                    Department = _context.Departments.Single(d => d.Name == "Temp")
+                };
 
-            //    _context.Employees.Add(newEmployee);
-            //    _context.SaveChanges();
+                _context.Employees.Add(newEmployee);
+                _context.SaveChanges();
 
-            //    CCMSUser newUser = new CCMSUser
-            //    {
-            //        UserName = newEmployee.Id.ToString(),
-            //        Employee = newEmployee,
-            //        Email = newEmployee.Id.ToString() + "@ccms.com"
-            //    };
+                CCMSUser newUser = new CCMSUser
+                {
+                    UserName = newEmployee.Id.ToString(),
+                    Employee = newEmployee
+                };
 
-            //    IdentityResult result = await _userManager.CreateAsync(newUser);
-            //    if (result.IsCompletedSuccessfully)
-            //    { }
-            //}
+                Task<IdentityResult> result = _userManager.CreateAsync(newUser, "Temp1234!");
+                if (result.IsCompletedSuccessfully)
+                { }
+            }
         }
 
         public IActionResult Index()
@@ -114,9 +114,9 @@ namespace CCMS.Controllers
                 };
 
                 //[DataType(DataType.Password)]
-                string pw = "Temp1234";
+                string pw = "Temp1234!";
 
-                IdentityResult result = await _userManager.CreateAsync(newUser);
+                IdentityResult result = await _userManager.CreateAsync(newUser, pw);
                 if (result.Succeeded)
                 { }
                 foreach (var error in result.Errors)

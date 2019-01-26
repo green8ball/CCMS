@@ -10,24 +10,29 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using CCMS.Models;
+using System.Linq;
 
 namespace CCMS.Areas.Identity.Pages.Account
 {
-    [AllowAnonymous]
-    //[Authorize]
+    //[AllowAnonymous]
+    [Authorize]
     public class RegisterModel : PageModel
     {
         private readonly SignInManager<CCMSUser> _signInManager;
         private readonly UserManager<CCMSUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly CCMSContext _context;
 
         public RegisterModel(
+            CCMSContext context,
             UserManager<CCMSUser> userManager,
             SignInManager<CCMSUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender)
         {
+            _context = context;
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
@@ -80,11 +85,12 @@ namespace CCMS.Areas.Identity.Pages.Account
             {
                 var user = new CCMSUser {
                     UserName = Input.Email,
-                    Email = Input.Email
+                    Email = Input.Email,
+                    Employee = _context.Employees.Single(e => e.Id == 1)
                     //Name = Input.Name,
                     //DOB = Input.DOB
                 };
-                var result = await _userManager.CreateAsync(user, Input.Password);
+                var result = await _userManager.CreateAsync(user, "Temp1234!");
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
