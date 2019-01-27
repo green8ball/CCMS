@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using CCMS.Models;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Identity;
 
 namespace CCMS.Areas.Identity.Data
@@ -12,5 +14,6 @@ namespace CCMS.Areas.Identity.Data
     {
         public long EmployeeId { get; set; }
         public Employee Employee { get; set; }
+
     }
 }

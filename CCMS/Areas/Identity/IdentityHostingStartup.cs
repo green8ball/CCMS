@@ -18,7 +18,7 @@ namespace CCMS.Areas.Identity
             builder.ConfigureServices((context, services) => {
                 services.AddDbContext<CCMSContext>(options =>
                     options.UseSqlServer(
-                        context.Configuration.GetConnectionString("CCMSContextConnection")));
+                        context.Configuration.GetConnectionString("CCMSContextConnectionLocal")));
 
                 services.AddDefaultIdentity<CCMSUser>()
                     .AddEntityFrameworkStores<CCMSContext>();
