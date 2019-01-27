@@ -22,22 +22,13 @@ namespace CCMS.Controllers
     {
         private readonly CCMSContext _context;
         private readonly UserManager<CCMSUser> _userManager;
-        private readonly SignInManager<CCMSUser> _signInManager;
-        private readonly ILogger<EmployeeController> _logger;
-        private readonly IEmailSender _emailSender;
-
+        
         public EmployeeController(
             CCMSContext context,
-            UserManager<CCMSUser> userManager,
-            SignInManager<CCMSUser> signInManager,
-            ILogger<EmployeeController> logger,
-            IEmailSender emailSender)
+            UserManager<CCMSUser> userManager)
         {
             _context = context;
             _userManager = userManager;
-            _signInManager = signInManager;
-            _logger = logger;
-            _emailSender = emailSender;
 
             //create default login
             if (_context.Employees.ToList().Count == 0)
