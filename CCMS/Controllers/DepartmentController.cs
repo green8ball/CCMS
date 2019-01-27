@@ -9,8 +9,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CCMS.Controllers
 {
-    [AllowAnonymous]
-    //[Authorize]
+    
+    [Authorize]
     public class DepartmentController : Controller
     {
         private readonly CCMSContext _context;

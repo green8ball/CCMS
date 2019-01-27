@@ -16,8 +16,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CCMS.Controllers
 {
-    [AllowAnonymous]
-    //[Authorize]
+    //[AllowAnonymous]
+    [Authorize]
     public class EmployeeController : Controller
     {
         private readonly CCMSContext _context;
