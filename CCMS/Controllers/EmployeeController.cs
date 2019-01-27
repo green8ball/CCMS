@@ -72,9 +72,9 @@ namespace CCMS.Controllers
                 };
 
                 //[DataType(DataType.Password)]
-                //string pw = "Temp1234!";
+                string pw = "Temp1234!";
 
-                IdentityResult result = await _userManager.CreateAsync(newUser);
+                IdentityResult result = await _userManager.CreateAsync(newUser, pw);
                 if (result.Succeeded)
                 {
                     await _userManager.AddToRoleAsync(newUser, "Staff");

@@ -9,8 +9,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CCMS.Controllers
 {
-    
-    [Authorize]
+
+    [Authorize(Roles = "WFM, Admin, Human Resources")]
     public class DepartmentController : Controller
     {
         private readonly CCMSContext _context;
