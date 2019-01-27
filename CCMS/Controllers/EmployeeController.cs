@@ -16,55 +16,22 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CCMS.Controllers
 {
-    //[AllowAnonymous]
-    [Authorize]
+
+    [Authorize(Roles = "WFM, Admin, Human Resources")]
     public class EmployeeController : Controller
     {
         private readonly CCMSContext _context;
         private readonly UserManager<CCMSUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         
         public EmployeeController(
             CCMSContext context,
-            UserManager<CCMSUser> userManager)
+            UserManager<CCMSUser> userManager,
+            RoleManager<IdentityRole> roleManager)
         {
             _context = context;
             _userManager = userManager;
-
-            //create default login
-            if (_context.Employees.ToList().Count == 0)
-            {
-                if (_context.Departments.ToList().Count() == 0)
-                {
-                    _context.Departments.Add(new Department
-                    {
-                        Name = "Temp",
-                        Description = "Temp"
-                    });
-                    _context.SaveChanges();
-                }
-
-                Employee newEmployee = new Employee
-                {
-                    FirstName = "Joshua",
-                    MiddleName = "Ryan",
-                    LastName = "Ortmann",
-                    HireDate = DateTime.Parse("2018-08-27"),
-                    Department = _context.Departments.Single(d => d.Name == "Temp")
-                };
-
-                _context.Employees.Add(newEmployee);
-                _context.SaveChanges();
-
-                CCMSUser newUser = new CCMSUser
-                {
-                    UserName = newEmployee.Id.ToString(),
-                    Employee = newEmployee
-                };
-
-                Task<IdentityResult> result = _userManager.CreateAsync(newUser, "Temp1234!");
-                if (result.IsCompletedSuccessfully)
-                { }
-            }
+            _roleManager = roleManager;
         }
 
         public IActionResult Index()
@@ -105,14 +72,12 @@ namespace CCMS.Controllers
                 };
 
                 //[DataType(DataType.Password)]
-                string pw = "Temp1234!";
+                //string pw = "Temp1234!";
 
-                IdentityResult result = await _userManager.CreateAsync(newUser, pw);
+                IdentityResult result = await _userManager.CreateAsync(newUser);
                 if (result.Succeeded)
-                { }
-                foreach (var error in result.Errors)
                 {
-                    ModelState.AddModelError(string.Empty, error.Description);
+                    await _userManager.AddToRoleAsync(newUser, "Staff");
                 }
 
                 return Redirect("/Employee");

@@ -21,8 +21,13 @@ namespace CCMS.Areas.Identity
                         context.Configuration.GetConnectionString("CCMSContextConnectionLocal")));
 
                 services.AddDefaultIdentity<CCMSUser>()
+                    .AddRoles<IdentityRole>()
                     .AddEntityFrameworkStores<CCMSContext>();
+                //services.AddIdentity<CCMSUser, IdentityRole>()
+                //    .AddEntityFrameworkStores<CCMSContext>()
+                //    .AddDefaultTokenProviders();
             });
+
         }
     }
 }
