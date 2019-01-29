@@ -68,6 +68,12 @@ namespace CCMS
             CreateRoles(serviceProvider).Wait();
         }
 
+        public IEnumerable<DateTime> EachDay(DateTime from, DateTime thru)
+        {
+            for (var day = from.Date; day.Date <= thru.Date; day = day.AddDays(1))
+                yield return day;
+        }
+
         private async Task CreateRoles(IServiceProvider serviceProvider)
 
         {
@@ -93,12 +99,34 @@ namespace CCMS
             {
                 if (Context.Departments.ToList().Count() == 0)
                 {
-                    Context.Departments.Add(new Department
+                    Department newDepartment = new Department
                     {
-                        Name = "Temp",
-                        Description = "Temp"
-                    });
+                        Name = "DHA",
+                        Description = "Primary Deparment for Dish"
+                    };
+
+                    Context.Departments.Add(newDepartment);
                     Context.SaveChanges();
+                    
+                    foreach (DateTime day in EachDay(DateTime.Parse("2019-01-01"), DateTime.Parse("2019-12-31")))
+                    {
+                        Allotment allotment = new Allotment
+                        {
+                            Date = day,
+                            Allowed = 40
+                        };
+                        Context.Allotments.Add(allotment);
+                        Context.SaveChanges();
+
+                        DepartmentAllotment departmentAllotment = new DepartmentAllotment
+                        {
+                            DepartmentID = newDepartment.Id,
+                            AllotmentID = allotment.Id
+                        };
+                        Context.DepartmentAllotments.Add(departmentAllotment);
+                        await Context.SaveChangesAsync();
+                    }
+
                 }
 
                 Employee newEmployee = new Employee
@@ -107,7 +135,7 @@ namespace CCMS
                     MiddleName = "Ryan",
                     LastName = "Ortmann",
                     HireDate = DateTime.Parse("2018-08-27"),
-                    Department = Context.Departments.Single(d => d.Name == "Temp")
+                    Department = Context.Departments.Single(d => d.Name == "DHA")
                 };
 
                 Context.Employees.Add(newEmployee);

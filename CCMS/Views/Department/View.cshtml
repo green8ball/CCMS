@@ -1,0 +1,16 @@
+﻿@model CCMS.Models.Department
+@{
+    ViewData["Title"] = "View";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>@Model.Name</h1>
+<p>@Model.Description</p>
+
+<ul>
+    <a asp-controller="Department" asp-action="Edit" asp-route-id=@Model.Id>Edit Department</a>
+</ul>
+<ul>
+    <a asp-controller="Department" asp-action="Index">Departments</a>
+</ul>
+

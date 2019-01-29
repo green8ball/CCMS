@@ -8,7 +8,7 @@
 <p><a asp-controller="Department" asp-action="Add">Add Department</a></p>
 <table class="table">
     <tr>
-        <th>ID</th>
+        @*<th>ID</th>*@
         <th>Name</th>
         <th>Description</th>
     </tr>
@@ -16,8 +16,8 @@
         @foreach (var department in Model)
         {
             <tr>
-                <td>@department.Id</td>
-                <td>@department.Name</td>
+                @*<td>@department.Id</td>*@
+                <td><a asp-controller="Department" asp-action="View" asp-route-id=@department.Id>@department.Name</a></td>
                 <td>@department.Description</td>
             </tr>
         }
