@@ -19,15 +19,6 @@ namespace CCMS.Controllers
         public DepartmentController(CCMSContext context)
         {
             _context = context;
-            if (_context.Departments.AsNoTracking().ToList().Count() == 0)
-            {
-                _context.Departments.Add(new Department
-                {
-                    Name = "Temp",
-                    Description = "Temp"
-                });
-                _context.SaveChanges();
-            }
         }
 
         public IActionResult Index()
@@ -60,11 +51,35 @@ namespace CCMS.Controllers
         public async Task<IActionResult> View(long id)
         {
             Department department = await _context.Departments.AsNoTracking().SingleAsync(d => d.Id == id);
+            ViewDepartmentViewModel viewDepartmentViewModel = new ViewDepartmentViewModel
+            {
+                Department = department,
+                AllotmentYears = _context.Allotments.AsNoTracking()
+                                            .Where(a => a.DepartmentID == id)
+                                            //.Where(a => a.TDate.Year >= DateTime.Now.Year)
+                                            .OrderBy(a => a.Date.Year)
+                                            .Select(a => a.Date.Year)
+                                            .Distinct()
+                                            .ToList()
+            };
 
-            return View("View", department);
+            return View("View", viewDepartmentViewModel);
         }
 
-        //[Route("{controller}/{id}")]
+        public IActionResult ViewAllotments(long id, long year)
+        {
+            //Department department = await _context.Departments.AsNoTracking().SingleAsync(d => d.Id == id);
+            IList<Allotment> allotments = _context.Allotments.AsNoTracking()
+                                                    .Where(a => a.DepartmentID == id)
+                                                    .Where(a => a.Date.Year == year)
+                                                    .OrderBy(a => a.Date)
+                                                    .ToList();
+
+            return View(allotments);
+
+
+        }
+
         public async Task<IActionResult> Edit(long id)
         {
             Department department = await _context.Departments.AsNoTracking().SingleAsync(d => d.Id == id);
@@ -77,7 +92,6 @@ namespace CCMS.Controllers
             return View(department);
         }
 
-        //[Route("{controller}/{id}")]
         [HttpPost]
         public async Task<IActionResult> Edit(long id, Department department)
         {

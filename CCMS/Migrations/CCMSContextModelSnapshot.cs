@@ -85,9 +85,11 @@ namespace CCMS.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("date");
 
-                    b.Property<int>("Taken");
+                    b.Property<long>("DepartmentID");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DepartmentID");
 
                     b.ToTable("Allotments");
                 });
@@ -105,19 +107,6 @@ namespace CCMS.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Departments");
-                });
-
-            modelBuilder.Entity("CCMS.Models.DepartmentAllotment", b =>
-                {
-                    b.Property<long>("AllotmentID");
-
-                    b.Property<long>("DepartmentID");
-
-                    b.HasKey("AllotmentID", "DepartmentID");
-
-                    b.HasIndex("DepartmentID");
-
-                    b.ToTable("DepartmentAllotments");
                 });
 
             modelBuilder.Entity("CCMS.Models.Employee", b =>
@@ -266,15 +255,10 @@ namespace CCMS.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("CCMS.Models.DepartmentAllotment", b =>
+            modelBuilder.Entity("CCMS.Models.Allotment", b =>
                 {
-                    b.HasOne("CCMS.Models.Allotment", "Allotment")
-                        .WithMany("DepartmentAllotments")
-                        .HasForeignKey("AllotmentID")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("CCMS.Models.Department", "Department")
-                        .WithMany("DepartmentAllotments")
+                        .WithMany("Allotments")
                         .HasForeignKey("DepartmentID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

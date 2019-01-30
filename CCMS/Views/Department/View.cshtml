@@ -1,16 +1,28 @@
-﻿@model CCMS.Models.Department
+﻿@model CCMS.ViewModel.ViewDepartmentViewModel
 @{
     ViewData["Title"] = "View";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>@Model.Name</h1>
-<p>@Model.Description</p>
+<h1>@Model.Department.Name</h1>
+<p>@Model.Department.Description</p>
+
+<p><a asp-controller="Department" asp-action="Index">Departments</a></p>
 
 <ul>
-    <a asp-controller="Department" asp-action="Edit" asp-route-id=@Model.Id>Edit Department</a>
-</ul>
-<ul>
-    <a asp-controller="Department" asp-action="Index">Departments</a>
+    <li>
+        <a asp-controller="Department" asp-action="Edit" asp-route-id=@Model.Department.Id>Edit Department</a>
+    </li>
+    <li>
+        Allotments
+        <ul>
+            @foreach (var year in Model.AllotmentYears)
+            {
+                <li>
+                    <a asp-controller="Department" asp-action="ViewAllotments" asp-route-id=@Model.Department.Id asp-route-year=@year>@year</a>
+                </li>
+            }
+        </ul>
+    </li>
 </ul>
 

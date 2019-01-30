@@ -1,0 +1,25 @@
+﻿@model IList<CCMS.Models.Allotment>
+@{
+    ViewData["Title"] = "ViewAllotments";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Allotments</h1>
+
+<table class="table">
+    <tr>
+        <th>Date</th>
+        <th>DOW</th>
+        <th>Allowed</th>
+    </tr>
+    <tbody id="Allotments">
+        @foreach (var allotment in Model)
+        {
+            <tr>
+                <td>@allotment.Date.Date.ToString("yyyy-MM-dd")</td>
+                <td>@allotment.Date.Date.DayOfWeek.ToString().Substring(0,3)</td>
+                <td>@(allotment.Allowed / 8)</td>
+            </tr>
+        }
+    </tbody>
+</table>

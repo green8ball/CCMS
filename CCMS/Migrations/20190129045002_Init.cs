@@ -9,21 +9,6 @@ namespace CCMS.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Allotments",
-                columns: table => new
-                {
-                    Id = table.Column<long>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Date = table.Column<DateTime>(type: "date", nullable: false),
-                    Allowed = table.Column<int>(nullable: false),
-                    Taken = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Allotments", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
                 {
@@ -73,23 +58,20 @@ namespace CCMS.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "DepartmentAllotments",
+                name: "Allotments",
                 columns: table => new
                 {
-                    DepartmentID = table.Column<long>(nullable: false),
-                    AllotmentID = table.Column<long>(nullable: false)
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Date = table.Column<DateTime>(type: "date", nullable: false),
+                    Allowed = table.Column<int>(nullable: false),
+                    DepartmentID = table.Column<long>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DepartmentAllotments", x => new { x.AllotmentID, x.DepartmentID });
+                    table.PrimaryKey("PK_Allotments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_DepartmentAllotments_Allotments_AllotmentID",
-                        column: x => x.AllotmentID,
-                        principalTable: "Allotments",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_DepartmentAllotments_Departments_DepartmentID",
+                        name: "FK_Allotments_Departments_DepartmentID",
                         column: x => x.DepartmentID,
                         principalTable: "Departments",
                         principalColumn: "Id",
@@ -237,6 +219,11 @@ namespace CCMS.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Allotments_DepartmentID",
+                table: "Allotments",
+                column: "DepartmentID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
                 column: "RoleId");
@@ -281,11 +268,6 @@ namespace CCMS.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DepartmentAllotments_DepartmentID",
-                table: "DepartmentAllotments",
-                column: "DepartmentID");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Employees_DepartmentId",
                 table: "Employees",
                 column: "DepartmentId");
@@ -293,6 +275,9 @@ namespace CCMS.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Allotments");
+
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -309,16 +294,10 @@ namespace CCMS.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "DepartmentAllotments");
-
-            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
-                name: "Allotments");
 
             migrationBuilder.DropTable(
                 name: "Employees");

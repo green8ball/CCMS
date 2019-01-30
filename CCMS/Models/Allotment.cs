@@ -12,8 +12,8 @@ namespace CCMS.Models
         [Column(TypeName = "date")]
         public DateTime Date { get; set; }
         public int Allowed { get; set; }
-        public int Taken { get; set; }
 
-        public IList<DepartmentAllotment> DepartmentAllotments { get; set; }
+        public long DepartmentID { get; set; }
+        public Department Department { get; set; }
     }
 }

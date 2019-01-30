@@ -99,6 +99,13 @@ namespace CCMS
             {
                 if (Context.Departments.ToList().Count() == 0)
                 {
+                    Context.Departments.Add(new Department
+                    {
+                        Name = "Temp",
+                        Description = "Temporary Department for newly added employees"
+                    });
+                    Context.SaveChanges();
+
                     Department newDepartment = new Department
                     {
                         Name = "DHA",
@@ -106,26 +113,46 @@ namespace CCMS
                     };
 
                     Context.Departments.Add(newDepartment);
+                    
                     Context.SaveChanges();
                     
-                    foreach (DateTime day in EachDay(DateTime.Parse("2019-01-01"), DateTime.Parse("2019-12-31")))
+                    foreach (DateTime day in EachDay(DateTime.Parse("2018-01-01"), DateTime.Parse("2020-12-31")))
                     {
-                        Allotment allotment = new Allotment
+                        int allowedVal = 0;
+                        switch (day.DayOfWeek)
+                        {
+                            case DayOfWeek.Monday:
+                                allowedVal = 56;
+                                break;
+                            case DayOfWeek.Tuesday:
+                                allowedVal = 56;
+                                break;
+                            case DayOfWeek.Wednesday:
+                                allowedVal = 48;
+                                break;
+                            case DayOfWeek.Thursday:
+                                allowedVal = 40;
+                                break;
+                            case DayOfWeek.Friday:
+                                allowedVal = 32;
+                                break;
+                            case DayOfWeek.Saturday:
+                                allowedVal = 24;
+                                break;
+                            case DayOfWeek.Sunday:
+                                allowedVal = 24;
+                                break;
+                        }
+                        Allotment newAllotment = new Allotment
                         {
                             Date = day,
-                            Allowed = 40
+                            Allowed = allowedVal,
+                            Department = newDepartment
                         };
-                        Context.Allotments.Add(allotment);
-                        Context.SaveChanges();
-
-                        DepartmentAllotment departmentAllotment = new DepartmentAllotment
-                        {
-                            DepartmentID = newDepartment.Id,
-                            AllotmentID = allotment.Id
-                        };
-                        Context.DepartmentAllotments.Add(departmentAllotment);
-                        await Context.SaveChangesAsync();
+                        Context.Allotments.Add(newAllotment);
+                        //Context.SaveChanges();
                     }
+                    Context.SaveChanges();
 
                 }
 
