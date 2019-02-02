@@ -133,6 +133,27 @@ namespace CCMS.Migrations
                     b.ToTable("Employees");
                 });
 
+            modelBuilder.Entity("CCMS.Models.TimeOffAllowed", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<long>("EmployeeId");
+
+                    b.Property<long>("PTO");
+
+                    b.Property<long>("UTO");
+
+                    b.Property<long>("Year");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.ToTable("TimeOffAlloweds");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -268,6 +289,14 @@ namespace CCMS.Migrations
                     b.HasOne("CCMS.Models.Department", "Department")
                         .WithMany("Employees")
                         .HasForeignKey("DepartmentId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("CCMS.Models.TimeOffAllowed", b =>
+                {
+                    b.HasOne("CCMS.Models.Employee", "Employee")
+                        .WithMany("TimeOffAlloweds")
+                        .HasForeignKey("EmployeeId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

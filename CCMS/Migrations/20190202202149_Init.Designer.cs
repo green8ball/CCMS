@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CCMS.Migrations
 {
     [DbContext(typeof(CCMSContext))]
-    [Migration("20190129045002_Init")]
+    [Migration("20190202202149_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -133,6 +133,27 @@ namespace CCMS.Migrations
                     b.HasIndex("DepartmentId");
 
                     b.ToTable("Employees");
+                });
+
+            modelBuilder.Entity("CCMS.Models.TimeOffAllowed", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<long>("EmployeeId");
+
+                    b.Property<long>("PTO");
+
+                    b.Property<long>("UTO");
+
+                    b.Property<long>("Year");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.ToTable("TimeOffAlloweds");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -270,6 +291,14 @@ namespace CCMS.Migrations
                     b.HasOne("CCMS.Models.Department", "Department")
                         .WithMany("Employees")
                         .HasForeignKey("DepartmentId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("CCMS.Models.TimeOffAllowed", b =>
+                {
+                    b.HasOne("CCMS.Models.Employee", "Employee")
+                        .WithMany("TimeOffAlloweds")
+                        .HasForeignKey("EmployeeId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

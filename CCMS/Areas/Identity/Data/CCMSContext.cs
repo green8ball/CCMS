@@ -19,6 +19,7 @@ namespace CCMS.Models
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Department> Departments { get; set; }
         public DbSet<Allotment> Allotments { get; set; }
+        public DbSet<TimeOffAllowed> TimeOffAlloweds { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

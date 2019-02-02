@@ -1,6 +1,6 @@
 ﻿@model IList<CCMS.Models.Allotment>
 @{
-    ViewData["Title"] = "ViewAllotments";
+    ViewData["Title"] = "Allotments";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -11,16 +11,14 @@
         <th>Date</th>
         <th>DOW</th>
         <th>Allowed</th>
-        <th>Taken</th>
     </tr>
     <tbody id="Allotments">
         @foreach (var allotment in Model)
         {
             <tr>
-                <td>@allotment.Date.Date.ToString("yyyy-MM-dd")</td>
+                <td><a asp-controller="Department" asp-action="EditAllotment" asp-route-id=@allotment.Id>@allotment.Date.Date.ToString("yyyy-MM-dd")</a></td>
                 <td>@allotment.Date.Date.DayOfWeek.ToString().Substring(0,3)</td>
-                <td>@(allotment.Allowed / 8.0)</td>
-                <td>0</td>
+                <td>@(allotment.Allowed / 8)</td>
             </tr>
         }
     </tbody>

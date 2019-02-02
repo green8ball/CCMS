@@ -13,6 +13,7 @@ using CCMS.Areas.Identity.Data;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using System.ComponentModel.DataAnnotations;
+using CCMS.Utils;
 
 namespace CCMS.Controllers
 {
@@ -65,6 +66,19 @@ namespace CCMS.Controllers
                 _context.Employees.Add(newEmployee);
                 _context.SaveChanges();
 
+                foreach (int year in Helper.EachYear(newEmployee.HireDate.Year, newEmployee.HireDate.Year + 2))
+                {
+                    TimeOffAllowed newTimeOffAllowed = new TimeOffAllowed
+                    {
+                        Employee = newEmployee,
+                        Year = year,
+                        UTO = 40,
+                        PTO = 40
+                    };
+                    _context.TimeOffAlloweds.Add(newTimeOffAllowed);
+                    _context.SaveChanges();
+                }
+
                 var newUser = new CCMSUser
                 {
                     UserName = newEmployee.Id.ToString(),
@@ -79,6 +93,8 @@ namespace CCMS.Controllers
                 {
                     await _userManager.AddToRoleAsync(newUser, "Staff");
                 }
+
+
 
                 return Redirect("/Employee");
             }

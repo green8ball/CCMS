@@ -134,6 +134,28 @@ namespace CCMS.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "TimeOffAlloweds",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    EmployeeId = table.Column<long>(nullable: false),
+                    Year = table.Column<long>(nullable: false),
+                    UTO = table.Column<long>(nullable: false),
+                    PTO = table.Column<long>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TimeOffAlloweds", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TimeOffAlloweds_Employees_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "Employees",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetUserClaims",
                 columns: table => new
                 {
@@ -271,6 +293,11 @@ namespace CCMS.Migrations
                 name: "IX_Employees_DepartmentId",
                 table: "Employees",
                 column: "DepartmentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TimeOffAlloweds_EmployeeId",
+                table: "TimeOffAlloweds",
+                column: "EmployeeId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -292,6 +319,9 @@ namespace CCMS.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "TimeOffAlloweds");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

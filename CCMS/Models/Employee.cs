@@ -21,5 +21,7 @@ namespace CCMS.Models
         [Column(TypeName = "Date")]
         public DateTime HireDate { get; set; }
 
+        public IList<TimeOffAllowed> TimeOffAlloweds { get; set; }
+
     }
 }

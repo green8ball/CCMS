@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CCMS.Areas.Identity.Data;
 using CCMS.Models;
+using CCMS.Utils;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -68,12 +69,6 @@ namespace CCMS
             CreateRoles(serviceProvider).Wait();
         }
 
-        public IEnumerable<DateTime> EachDay(DateTime from, DateTime thru)
-        {
-            for (var day = from.Date; day.Date <= thru.Date; day = day.AddDays(1))
-                yield return day;
-        }
-
         private async Task CreateRoles(IServiceProvider serviceProvider)
 
         {
@@ -116,7 +111,7 @@ namespace CCMS
                     
                     Context.SaveChanges();
                     
-                    foreach (DateTime day in EachDay(DateTime.Parse("2018-01-01"), DateTime.Parse("2020-12-31")))
+                    foreach (DateTime day in Helper.EachDay(DateTime.Parse("2018-01-01"), DateTime.Parse("2020-12-31")))
                     {
                         int allowedVal = 0;
                         switch (day.DayOfWeek)
@@ -168,6 +163,35 @@ namespace CCMS
                 Context.Employees.Add(newEmployee);
                 Context.SaveChanges();
 
+                
+                foreach (int year in Helper.EachYear(newEmployee.HireDate.Year, newEmployee.HireDate.Year + 5))
+                {
+                    int pto = 0;
+                    switch (year - newEmployee.HireDate.Year)
+                    {
+                        case 0:
+                            pto = 32;
+                            break;
+                        case 1:
+                            pto = 80;
+                            break;
+                        default:
+                            pto = 120;
+                            break;
+                    }
+
+                    TimeOffAllowed newTimeOffAllowed = new TimeOffAllowed
+                    {
+                        Employee = newEmployee,
+                        Year = year,
+                        UTO = 0,
+                        PTO = pto
+                    };
+
+                    Context.TimeOffAlloweds.Add(newTimeOffAllowed);
+                    Context.SaveChanges();
+
+                }
                 CCMSUser newUser = new CCMSUser
                 {
                     UserName = newEmployee.Id.ToString(),
