@@ -1,0 +1,42 @@
+﻿@model CCMS.ViewModel.ViewEmployeeViewModel
+@{
+    ViewData["Title"] = "View";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Employee</h1>
+<p>First Name: @Model.Employee.FirstName</p>
+<p>Middle Name: @Model.Employee.MiddleName</p>
+<p>Last Name: @Model.Employee.LastName</p>
+<p>Hire Date: @Model.Employee.HireDate.Date.ToString("yyyy-MM-dd")</p>
+<p>Department: @Model.Department.Name</p>
+<p>Time Off Balance</p>
+
+<table class="table">
+    <tr>
+        <th>Year</th>
+        <th>PTO Year Accrual</th>
+        <th>PTO Available</th>
+        <th>PTO Taken</th>
+        <th>PTO Pending</th>
+
+        <th>UTO Year Accrual</th>
+        <th>UTO Available</th>
+        <th>UTO Taken</th>
+        <th>UTO Pending</th>
+    </tr>
+    @foreach (var timeOffAllowed in Model.TimeOffAlloweds)
+    {
+    <tr>
+        <td>@timeOffAllowed.Year</td>
+        <td>@timeOffAllowed.PTO</td>
+        <td>@timeOffAllowed.PTO</td>
+        <td>0</td>
+        <td>0</td>
+        <td>@timeOffAllowed.UTO</td>
+        <td>@timeOffAllowed.UTO</td>
+        <td>0</td>
+        <td>0</td>
+    </tr>
+    }
+</table>

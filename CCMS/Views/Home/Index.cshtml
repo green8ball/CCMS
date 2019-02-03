@@ -1,8 +1,29 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Identity
+@using CCMS.Areas.Identity.Data
+@using Microsoft.AspNetCore.Authorization
+@inject SignInManager<CCMSUser> SignInManager
+@inject UserManager<CCMSUser> UserManager
+@inject IAuthorizationService AuthorizationService
+@inject CCMSContext Context
+
+@{
     ViewData["Title"] = "Home Page";
 }
 <h1>Dashboard</h1>
 
-<h4>Entity Management</h4>
-<p><a asp-controller="Department" asp-action="Index">Department</a></p>
-<p><a asp-controller="Employee" asp-action="Index">Employee</a></p>
+@if (SignInManager.IsSignedIn(User))
+{
+    var employee = Context.Employees.Single(e => e.Id.ToString() == UserManager.GetUserName(User));
+    <h4>Self</h4>
+    <p><a asp-controller="Employee" asp-action="View" asp-route-id=@employee.Id>Time Off Balances</a></p>
+    <p><a asp-controller="Employee" asp-action="TimeOffRequest" asp-route-id=@employee.Id>Request Time Off</a></p>
+    @if ((await AuthorizationService.AuthorizeAsync(User, "RequireWFMRole")).Succeeded)
+    {
+        <h4>Entity Management</h4>
+
+        <p><a asp-controller="Department" asp-action="Index">Department</a></p>
+        <p><a asp-controller="Employee" asp-action="Index">Employee</a></p>
+    }
+    //var employee = Context.Employees.Single(e => e.Id.ToString() == if;
+    //var role = RoleManager.Roles.Where(r => r.)
+}

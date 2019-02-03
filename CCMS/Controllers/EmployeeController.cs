@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-//using System.Data.Entity;
+﻿using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,31 +8,32 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using CCMS.Areas.Identity.Data;
-using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using System.ComponentModel.DataAnnotations;
 using CCMS.Utils;
 
 namespace CCMS.Controllers
 {
 
-    [Authorize(Roles = "WFM, Admin, Human Resources")]
+    [Authorize]
     public class EmployeeController : Controller
     {
         private readonly CCMSContext _context;
         private readonly UserManager<CCMSUser> _userManager;
+        private readonly SignInManager<CCMSUser> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         
         public EmployeeController(
             CCMSContext context,
             UserManager<CCMSUser> userManager,
+            SignInManager<CCMSUser> signInManager,
             RoleManager<IdentityRole> roleManager)
         {
             _context = context;
             _userManager = userManager;
+            _signInManager = signInManager;
             _roleManager = roleManager;
         }
 
+        [Authorize(Roles = "WFM, Admin, Human Resources")]
         public IActionResult Index()
         {
             //ViewBag.Title = "Employee";
@@ -42,12 +41,44 @@ namespace CCMS.Controllers
             return View(employees);
         }
 
+        [Authorize(Roles = "WFM, Admin, Human Resources, Staff")]
+        public async Task<IActionResult> View(long id)
+        {
+            Employee employeeUser = _context.Employees.Single(e => e.Id.ToString() == _userManager.GetUserName(User));
+            if (User.IsInRole("Staff"))
+            {
+                if (employeeUser.Id != id)
+                {
+                    return NotFound();
+                }
+            }
+            //Employee employeeUser = _context.Employees.Single(e => e.Id.ToString() == _userManager.GetUserName(User));
+            Employee employee = await _context.Employees.AsNoTracking().SingleAsync(e => e.Id == id);
+            Department department = await _context.Departments.AsNoTracking().SingleAsync(d => d.Id == employee.DepartmentId);
+            IList<TimeOffAllowed> timeOffAlloweds = await _context.TimeOffAlloweds.AsNoTracking().Where(t => t.EmployeeId == id).ToListAsync();
+            ViewEmployeeViewModel viewEmployeeViewModel = new ViewEmployeeViewModel
+            {
+                Employee = employee,
+                Department = department,
+                TimeOffAlloweds = timeOffAlloweds
+            };
+            return View(viewEmployeeViewModel);
+        }
+
+        [Authorize(Roles = "WFM, Admin, Human Resources")]
         public IActionResult Add()
         {
             AddEmployeeViewModel addEmployeeViewModel = new AddEmployeeViewModel(_context.Departments.ToList());
             return View(addEmployeeViewModel);
         }
 
+        [Authorize(Roles = "WFM, Admin, Human Resources, Staff")]
+        public async Task<IActionResult> TimeOffRequest()
+        {
+
+        }
+
+        [Authorize(Roles = "WFM, Admin, Human Resources")]
         [HttpPost]
         public async Task<IActionResult> Add(AddEmployeeViewModel addEmployeeViewModel)
         {
@@ -93,8 +124,6 @@ namespace CCMS.Controllers
                 {
                     await _userManager.AddToRoleAsync(newUser, "Staff");
                 }
-
-
 
                 return Redirect("/Employee");
             }

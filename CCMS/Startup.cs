@@ -35,6 +35,12 @@ namespace CCMS
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
+                options.AddPolicy("RequireWFMRole", policy => policy.RequireRole("WFM", "Admin"));
+                options.AddPolicy("RequireHRRole", policy => policy.RequireRole("Human Resources"));
+            });
 
             
         }
