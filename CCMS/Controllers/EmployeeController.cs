@@ -72,11 +72,11 @@ namespace CCMS.Controllers
             return View(addEmployeeViewModel);
         }
 
-        [Authorize(Roles = "WFM, Admin, Human Resources, Staff")]
-        public async Task<IActionResult> TimeOffRequest()
-        {
+        //[Authorize(Roles = "WFM, Admin, Human Resources, Staff")]
+        //public async Task<IActionResult> TimeOffRequest()
+        //{
 
-        }
+        //}
 
         [Authorize(Roles = "WFM, Admin, Human Resources")]
         [HttpPost]

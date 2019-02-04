@@ -12,7 +12,7 @@ namespace CCMS.Models
         [Column(TypeName = "Date")]
         public DateTime Date { get; set; }
 
-        public DateTime Submission { get; set; }
+        public DateTime SubmissionTimeStamp { get; set; }
         public string Status { get; set; }
 
         public long RequesterId { get; set; }
