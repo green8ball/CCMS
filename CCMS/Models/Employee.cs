@@ -22,6 +22,6 @@ namespace CCMS.Models
         public DateTime HireDate { get; set; }
 
         public IList<TimeOffAllowed> TimeOffAlloweds { get; set; }
-
+        public IList<TimeOffRequest> TimeOffRequests { get; set; }
     }
 }

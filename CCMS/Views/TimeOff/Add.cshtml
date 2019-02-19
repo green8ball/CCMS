@@ -1,0 +1,19 @@
+﻿@model CCMS.ViewModel.AddTimeOffRequestViewModel
+@{
+    ViewData["Title"] = "Add";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Time Off Request</h1>
+
+<form asp-controller="TimeOff" asp-action="Add" method="post">
+
+    <div class="form-group">
+        <label asp-for="Date"></label>
+        <input class="form-control" type="date" asp-for="Date" />
+        <span asp-validation-for="Date"></span>
+    </div>
+
+    <input type="submit" value="Submit" />
+
+</form>

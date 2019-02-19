@@ -16,7 +16,7 @@
     var employee = Context.Employees.Single(e => e.Id.ToString() == UserManager.GetUserName(User));
     <h4>Self</h4>
     <p><a asp-controller="Employee" asp-action="View" asp-route-id=@employee.Id>Time Off Balances</a></p>
-    <p><a asp-controller="Employee" asp-action="TimeOffRequest" asp-route-id=@employee.Id>Request Time Off</a></p>
+    <p><a asp-controller="TimeOff" asp-action="Add">Request Time Off</a></p>
     @if ((await AuthorizationService.AuthorizeAsync(User, "RequireWFMRole")).Succeeded)
     {
         <h4>Entity Management</h4>

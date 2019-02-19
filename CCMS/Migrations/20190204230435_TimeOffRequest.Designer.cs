@@ -4,14 +4,16 @@ using CCMS.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CCMS.Migrations
 {
     [DbContext(typeof(CCMSContext))]
-    partial class CCMSContextModelSnapshot : ModelSnapshot
+    [Migration("20190204230435_TimeOffRequest")]
+    partial class TimeOffRequest
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -325,7 +327,7 @@ namespace CCMS.Migrations
             modelBuilder.Entity("CCMS.Models.TimeOffRequest", b =>
                 {
                     b.HasOne("CCMS.Models.Employee", "Requester")
-                        .WithMany("TimeOffRequests")
+                        .WithMany()
                         .HasForeignKey("RequesterId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

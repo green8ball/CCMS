@@ -1,0 +1,28 @@
+﻿@model IList<CCMS.Models.TimeOffRequest>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Time Off Requests</h1>
+<table class="table">
+    <tr>
+        <th>ID</th>
+        <th>Date</th>
+        <th>Status</th>
+        <th>Requested On</th>
+        <th>Requested By</th>
+    </tr>
+    <tbody id="TimeOffRequests">
+        @foreach (var timeoffrequest in Model)
+        {
+            <tr>
+                <td>@timeoffrequest.Id</td>
+                <td>@timeoffrequest.Date.Date.ToString("yyyy-MM-dd")</td>
+                <td>@timeoffrequest.Status</td>
+                <td>@timeoffrequest.SubmissionTimeStamp.ToString("yyyy-MM-dd hh:mm:ss")</td>
+                <td>@timeoffrequest.Requester.LastName, @timeoffrequest.Requester.FirstName</td>
+            </tr>
+        }
+    </tbody>
+</table>
