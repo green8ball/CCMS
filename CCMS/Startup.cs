@@ -212,6 +212,16 @@ namespace CCMS
                     await UserManager.AddToRoleAsync(newUser, "Admin");
                 }
             }
+            if (Context.ActivityCodes.ToList().Count() == 0)
+            {
+                string[] activityCodes = { "Open", "Break", "Lunch", "Makeup Time", "Absent", "NCNS", "Time Off" };
+
+                foreach (var activityCode in activityCodes)
+                {
+                    Context.ActivityCodes.Add(new ActivityCode { Name = activityCode });
+                }
+                Context.SaveChanges();
+            }
         }
     }
 }
