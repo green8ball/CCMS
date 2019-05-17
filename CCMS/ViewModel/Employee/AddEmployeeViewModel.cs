@@ -22,8 +22,8 @@ namespace CCMS.ViewModel
         public string LastName { get; set; }
 
         [Required]
-        [Display(Name ="Department")]
-        public long DepartmentId { get; set; }
+        [Display(Name ="ManagementUnit")]
+        public long ManagementUnitId { get; set; }
 
         [Required(ErrorMessage ="Employee must have a hire date")]
         [Display(Name ="Hire Date")]
@@ -31,18 +31,18 @@ namespace CCMS.ViewModel
         //[Column(TypeName = "Date")]
         public DateTime HireDate { get; set; }
 
-        public List<SelectListItem> Departments { get; set; }
+        public List<SelectListItem> ManagementUnits { get; set; }
         
-        public AddEmployeeViewModel(IEnumerable<Department> departments)
+        public AddEmployeeViewModel(IEnumerable<ManagementUnit> managementUnits)
         {
-            Departments = new List<SelectListItem>();
+            ManagementUnits = new List<SelectListItem>();
 
-            foreach (Department department in departments)
+            foreach (ManagementUnit managementUnit in managementUnits)
             {
-                Departments.Add(new SelectListItem
+                ManagementUnits.Add(new SelectListItem
                 {
-                    Value = department.Id.ToString(),
-                    Text = department.Name.ToString()
+                    Value = managementUnit.Id.ToString(),
+                    Text = managementUnit.Name.ToString()
                 });
             }
         }

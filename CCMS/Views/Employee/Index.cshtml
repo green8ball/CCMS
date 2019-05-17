@@ -13,7 +13,7 @@
         <th>Middle Name</th>
         <th>Last Name</th>
         <th>Hire Date</th>
-        <th>Department</th>
+        <th>Management Unit</th>
     </tr>
     <tbody id="Employees">
         @foreach (var employee in Model)
@@ -24,7 +24,7 @@
                 <td>@employee.MiddleName</td>
                 <td>@employee.LastName</td>
                 <td>@employee.HireDate.Date.ToString("yyyy-MM-dd")</td>
-                <td>@employee.Department.Name</td>
+                <td>@employee.ManagementUnit.Name</td>
             </tr>
         }
     </tbody>

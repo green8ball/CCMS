@@ -12,35 +12,35 @@ namespace CCMS.Controllers
 {
 
     [Authorize(Roles = "WFM, Admin, Human Resources")]
-    public class DepartmentController : Controller
+    public class ManagementUnitController : Controller
     {
         private readonly CCMSContext _context;
 
-        public DepartmentController(CCMSContext context)
+        public ManagementUnitController(CCMSContext context)
         {
             _context = context;
         }
 
         public IActionResult Index()
         {
-            ViewBag.Title = "Department";
-            List<Department> departments = _context.Departments.AsNoTracking().ToList();
-            return View(departments);
+            ViewBag.Title = "ManagmentUnit";
+            List<ManagementUnit> ManagmentUnits = _context.ManagementUnits.AsNoTracking().ToList();
+            return View(ManagmentUnits);
         }
 
         [HttpPost]
-        public IActionResult Add(AddDepartmentViewModel addDepartmentViewModel)
+        public IActionResult Add(AddManagementUnitViewModel addManagmentUnitViewModel)
         {
-            if (addDepartmentViewModel.Name != null)
+            if (addManagmentUnitViewModel.Name != null)
             {
-                Department newDepartment = new Department
+                ManagementUnit newManagmentUnit = new ManagementUnit
                 {
-                    Name = addDepartmentViewModel.Name,
-                    Description = addDepartmentViewModel.Description
+                    Name = addManagmentUnitViewModel.Name,
+                    Description = addManagmentUnitViewModel.Description
                 };
-                _context.Departments.Add(newDepartment);
+                _context.ManagementUnits.Add(newManagmentUnit);
                 _context.SaveChanges();
-                return Redirect("/Department/View/" + newDepartment.Id);
+                return Redirect("/ManagmentUnit/View/" + newManagmentUnit.Id);
             }
             else
             {
@@ -50,12 +50,12 @@ namespace CCMS.Controllers
 
         public async Task<IActionResult> View(long id)
         {
-            Department department = await _context.Departments.AsNoTracking().SingleAsync(d => d.Id == id);
-            ViewDepartmentViewModel viewDepartmentViewModel = new ViewDepartmentViewModel
+            ManagementUnit ManagmentUnit = await _context.ManagementUnits.AsNoTracking().SingleAsync(d => d.Id == id);
+            ViewManagementUnitViewModel viewManagmentUnitViewModel = new ViewManagementUnitViewModel
             {
-                Department = department,
+                ManagementUnit = ManagmentUnit,
                 AllotmentYears = _context.Allotments.AsNoTracking()
-                                            .Where(a => a.DepartmentID == id)
+                                            .Where(a => a.ManagementUnitID == id)
                                             //.Where(a => a.TDate.Year >= DateTime.Now.Year)
                                             .OrderBy(a => a.Date.Year)
                                             .Select(a => a.Date.Year)
@@ -63,14 +63,14 @@ namespace CCMS.Controllers
                                             .ToList()
             };
 
-            return View("View", viewDepartmentViewModel);
+            return View("View", viewManagmentUnitViewModel);
         }
 
         public IActionResult ViewAllotments(long id, long year)
         {
-            //Department department = await _context.Departments.AsNoTracking().SingleAsync(d => d.Id == id);
+            //ManagmentUnit ManagmentUnit = await _context.ManagmentUnits.AsNoTracking().SingleAsync(d => d.Id == id);
             IList<Allotment> allotments = _context.Allotments.AsNoTracking()
-                                                    .Where(a => a.DepartmentID == id)
+                                                    .Where(a => a.ManagementUnitID == id)
                                                     .Where(a => a.Date.Year == year)
                                                     .OrderBy(a => a.Date)
                                                     .ToList();
@@ -82,35 +82,35 @@ namespace CCMS.Controllers
 
         public async Task<IActionResult> Edit(long id)
         {
-            Department department = await _context.Departments.AsNoTracking().SingleAsync(d => d.Id == id);
+            ManagementUnit ManagmentUnit = await _context.ManagementUnits.AsNoTracking().SingleAsync(d => d.Id == id);
 
-            if (department == null)
+            if (ManagmentUnit == null)
             {
                 return NotFound();
             }
 
-            return View(department);
+            return View(ManagmentUnit);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(long id, Department department)
+        public async Task<IActionResult> Edit(long id, ManagementUnit ManagmentUnit)
         {
-            if (id != department.Id)
+            if (id != ManagmentUnit.Id)
             {
                 return BadRequest();
             }
             if (ModelState.IsValid)
             {
-                if (department.Name != "")
+                if (ManagmentUnit.Name != "")
                 {
-                    _context.Entry(department).State = EntityState.Modified;
+                    _context.Entry(ManagmentUnit).State = EntityState.Modified;
                     await _context.SaveChangesAsync();
                 } else
                 {
-                    return View(department);
+                    return View(ManagmentUnit);
                 }
             }
-            return Redirect("/Department/View/" + id);
+            return Redirect("/ManagmentUnit/View/" + id);
         }
 
         public IActionResult Add()

@@ -98,22 +98,22 @@ namespace CCMS
 
             if (Context.Employees.ToList().Count == 0)
             {
-                if (Context.Departments.ToList().Count() == 0)
+                if (Context.ManagementUnits.ToList().Count() == 0)
                 {
-                    Context.Departments.Add(new Department
+                    Context.ManagementUnits.Add(new ManagementUnit
                     {
                         Name = "Temp",
-                        Description = "Temporary Department for newly added employees"
+                        Description = "Temporary Management Unit for newly added employees"
                     });
                     Context.SaveChanges();
 
-                    Department newDepartment = new Department
+                    ManagementUnit newManagementUnit = new ManagementUnit
                     {
                         Name = "DHA",
-                        Description = "Primary Deparment for Dish"
+                        Description = "Primary Management Unit for Dish"
                     };
 
-                    Context.Departments.Add(newDepartment);
+                    Context.ManagementUnits.Add(newManagementUnit);
                     
                     Context.SaveChanges();
                     
@@ -148,7 +148,7 @@ namespace CCMS
                         {
                             Date = day,
                             Allowed = allowedVal,
-                            Department = newDepartment
+                            ManagementUnit = newManagementUnit
                         };
                         Context.Allotments.Add(newAllotment);
                         //Context.SaveChanges();
@@ -163,7 +163,7 @@ namespace CCMS
                     MiddleName = "Ryan",
                     LastName = "Ortmann",
                     HireDate = DateTime.Parse("2018-08-27"),
-                    Department = Context.Departments.Single(d => d.Name == "DHA")
+                    ManagementUnit = Context.ManagementUnits.Single(d => d.Name == "DHA")
                 };
 
                 Context.Employees.Add(newEmployee);

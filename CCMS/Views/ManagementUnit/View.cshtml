@@ -1,0 +1,28 @@
+﻿@model CCMS.ViewModel.ViewManagementUnitViewModel
+@{
+    ViewData["Title"] = "View";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>@Model.ManagementUnit.Name</h1>
+<p>@Model.ManagementUnit.Description</p>
+
+<p><a asp-controller="managementUnit" asp-action="Index">Management Units</a></p>
+
+<ul>
+    <li>
+        <a asp-controller="managementUnit" asp-action="Edit" asp-route-id=@Model.ManagementUnit.Id>Edit Management Unit</a>
+    </li>
+    <li>
+        Allotments
+        <ul>
+            @foreach (var year in Model.AllotmentYears)
+            {
+                <li>
+                    <a asp-controller="managementUnit" asp-action="ViewAllotments" asp-route-id=@Model.ManagementUnit.Id asp-route-year=@year>@year</a>
+                </li>
+            }
+        </ul>
+    </li>
+</ul>
+

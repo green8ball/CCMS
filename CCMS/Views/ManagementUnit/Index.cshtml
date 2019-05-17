@@ -1,0 +1,25 @@
+﻿@model List<CCMS.Models.ManagementUnit>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Management Unit</h1>
+<p><a asp-controller="ManagementUnit" asp-action="Add">Add Management Unit</a></p>
+<table class="table">
+    <tr>
+        @*<th>ID</th>*@
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tbody id="managementUnit">
+        @foreach (var managementUnit in Model)
+        {
+            <tr>
+                @*<td>@department.Id</td>*@
+                <td><a asp-controller="ManagementUnit" asp-action="View" asp-route-id=@managementUnit.Id>@managementUnit.Name</a></td>
+                <td>@managementUnit.Description</td>
+            </tr>
+        }
+    </tbody>
+</table>

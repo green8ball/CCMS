@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace CCMS.Models
 {
-    public class Department
+    public class ManagementUnit
     {
         public long Id { get; set; }
         public string Name { get; set; }

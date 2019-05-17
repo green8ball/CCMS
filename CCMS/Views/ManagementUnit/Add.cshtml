@@ -1,18 +1,15 @@
-﻿@model CCMS.Models.Department
+﻿@model CCMS.ViewModel.AddManagementUnitViewModel
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Add";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Edit</h1>
+<h1>Add Management Unit</h1>
 
-<form asp-controller="Department" asp-action="Edit" method="post">
+<div asp-validation-summary="All"></div>
 
-    <div class="form-group">
-        <label asp-for="Id">Department ID</label>
-        <input class="form-control" asp-for="Id" disabled/>
-        <span asp-validation-for="Id"></span>
-    </div>
+<form asp-controller="ManagementUnit" asp-action="Add" method="post">
+
     <div class="form-group">
         <label asp-for="Name"></label>
         <input class="form-control" asp-for="Name" />
@@ -24,6 +21,6 @@
         <span asp-validation-for="Description"></span>
     </div>
 
-    <input type="submit" value="Save" />
+    <input type="submit" value="Add Management Unit" />
 
 </form>

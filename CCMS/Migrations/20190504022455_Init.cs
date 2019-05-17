@@ -9,6 +9,19 @@ namespace CCMS.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "ActivityCodes",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ActivityCodes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
                 {
@@ -23,7 +36,7 @@ namespace CCMS.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Departments",
+                name: "ManagementUnits",
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
@@ -33,7 +46,7 @@ namespace CCMS.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Departments", x => x.Id);
+                    table.PrimaryKey("PK_ManagementUnits", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -65,15 +78,15 @@ namespace CCMS.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Date = table.Column<DateTime>(type: "date", nullable: false),
                     Allowed = table.Column<int>(nullable: false),
-                    DepartmentID = table.Column<long>(nullable: false)
+                    ManagementUnitID = table.Column<long>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Allotments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Allotments_Departments_DepartmentID",
-                        column: x => x.DepartmentID,
-                        principalTable: "Departments",
+                        name: "FK_Allotments_ManagementUnits_ManagementUnitID",
+                        column: x => x.ManagementUnitID,
+                        principalTable: "ManagementUnits",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -87,16 +100,16 @@ namespace CCMS.Migrations
                     FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
                     MiddleName = table.Column<string>(nullable: true),
-                    DepartmentId = table.Column<long>(nullable: false),
+                    ManagementUnitId = table.Column<long>(nullable: false),
                     HireDate = table.Column<DateTime>(type: "Date", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Employees", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Employees_Departments_DepartmentId",
-                        column: x => x.DepartmentId,
-                        principalTable: "Departments",
+                        name: "FK_Employees_ManagementUnits_ManagementUnitId",
+                        column: x => x.ManagementUnitId,
+                        principalTable: "ManagementUnits",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -150,6 +163,28 @@ namespace CCMS.Migrations
                     table.ForeignKey(
                         name: "FK_TimeOffAlloweds_Employees_EmployeeId",
                         column: x => x.EmployeeId,
+                        principalTable: "Employees",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TimeOffRequests",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Date = table.Column<DateTime>(type: "Date", nullable: false),
+                    SubmissionTimeStamp = table.Column<DateTime>(nullable: false),
+                    Status = table.Column<string>(nullable: true),
+                    RequesterId = table.Column<long>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TimeOffRequests", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TimeOffRequests_Employees_RequesterId",
+                        column: x => x.RequesterId,
                         principalTable: "Employees",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -241,9 +276,9 @@ namespace CCMS.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Allotments_DepartmentID",
+                name: "IX_Allotments_ManagementUnitID",
                 table: "Allotments",
-                column: "DepartmentID");
+                column: "ManagementUnitID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -290,18 +325,26 @@ namespace CCMS.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Employees_DepartmentId",
+                name: "IX_Employees_ManagementUnitId",
                 table: "Employees",
-                column: "DepartmentId");
+                column: "ManagementUnitId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TimeOffAlloweds_EmployeeId",
                 table: "TimeOffAlloweds",
                 column: "EmployeeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TimeOffRequests_RequesterId",
+                table: "TimeOffRequests",
+                column: "RequesterId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "ActivityCodes");
+
             migrationBuilder.DropTable(
                 name: "Allotments");
 
@@ -324,6 +367,9 @@ namespace CCMS.Migrations
                 name: "TimeOffAlloweds");
 
             migrationBuilder.DropTable(
+                name: "TimeOffRequests");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
@@ -333,7 +379,7 @@ namespace CCMS.Migrations
                 name: "Employees");
 
             migrationBuilder.DropTable(
-                name: "Departments");
+                name: "ManagementUnits");
         }
     }
 }

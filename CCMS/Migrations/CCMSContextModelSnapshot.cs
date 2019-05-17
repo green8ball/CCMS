@@ -15,7 +15,7 @@ namespace CCMS.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.2-servicing-10034")
+                .HasAnnotation("ProductVersion", "2.2.0-rtm-35687")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -98,16 +98,40 @@ namespace CCMS.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("date");
 
-                    b.Property<long>("DepartmentID");
+                    b.Property<long>("ManagementUnitID");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DepartmentID");
+                    b.HasIndex("ManagementUnitID");
 
                     b.ToTable("Allotments");
                 });
 
-            modelBuilder.Entity("CCMS.Models.Department", b =>
+            modelBuilder.Entity("CCMS.Models.Employee", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("FirstName");
+
+                    b.Property<DateTime>("HireDate")
+                        .HasColumnType("Date");
+
+                    b.Property<string>("LastName");
+
+                    b.Property<long>("ManagementUnitId");
+
+                    b.Property<string>("MiddleName");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ManagementUnitId");
+
+                    b.ToTable("Employees");
+                });
+
+            modelBuilder.Entity("CCMS.Models.ManagementUnit", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -119,31 +143,7 @@ namespace CCMS.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Departments");
-                });
-
-            modelBuilder.Entity("CCMS.Models.Employee", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<long>("DepartmentId");
-
-                    b.Property<string>("FirstName");
-
-                    b.Property<DateTime>("HireDate")
-                        .HasColumnType("Date");
-
-                    b.Property<string>("LastName");
-
-                    b.Property<string>("MiddleName");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DepartmentId");
-
-                    b.ToTable("Employees");
+                    b.ToTable("ManagementUnits");
                 });
 
             modelBuilder.Entity("CCMS.Models.TimeOffAllowed", b =>
@@ -313,17 +313,17 @@ namespace CCMS.Migrations
 
             modelBuilder.Entity("CCMS.Models.Allotment", b =>
                 {
-                    b.HasOne("CCMS.Models.Department", "Department")
+                    b.HasOne("CCMS.Models.ManagementUnit", "ManagementUnit")
                         .WithMany("Allotments")
-                        .HasForeignKey("DepartmentID")
+                        .HasForeignKey("ManagementUnitID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("CCMS.Models.Employee", b =>
                 {
-                    b.HasOne("CCMS.Models.Department", "Department")
+                    b.HasOne("CCMS.Models.ManagementUnit", "ManagementUnit")
                         .WithMany("Employees")
-                        .HasForeignKey("DepartmentId")
+                        .HasForeignKey("ManagementUnitId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

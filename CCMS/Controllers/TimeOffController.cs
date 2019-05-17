@@ -61,13 +61,13 @@ namespace CCMS.Controllers
                 if (timeOffAllowed.UTO >= 8 || timeOffAllowed.PTO >= 8)
                 {
                     Allotment allotment = _context.Allotments
-                                                    .Where(a => a.DepartmentID == employeeUser.DepartmentId)
+                                                    .Where(a => a.ManagementUnitID == employeeUser.ManagementUnitId)
                                                     .Where(a => a.Date == addTimeOffRequestViewModel.Date.Date)
                                                     .Single();
 
                     int allotmentTimeOffTaken = _context.TimeOffRequests
                                                     .Where(t => t.Date == addTimeOffRequestViewModel.Date.Date)
-                                                    .Where(t => t.Requester.DepartmentId == employeeUser.DepartmentId)
+                                                    .Where(t => t.Requester.ManagementUnitId == employeeUser.ManagementUnitId)
                                                     .Count() * 8;
 
                     int employeeTimeOffTaken = _context.TimeOffRequests

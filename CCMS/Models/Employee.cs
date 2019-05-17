@@ -15,8 +15,8 @@ namespace CCMS.Models
         public string LastName { get; set; }
         public string MiddleName { get; set; }
 
-        public long DepartmentId { get; set; }
-        public Department Department { get; set; }
+        public long ManagementUnitId { get; set; }
+        public ManagementUnit ManagementUnit { get; set; }
 
         [Column(TypeName = "Date")]
         public DateTime HireDate { get; set; }

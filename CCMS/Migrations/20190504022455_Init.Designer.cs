@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CCMS.Migrations
 {
     [DbContext(typeof(CCMSContext))]
-    [Migration("20190202202149_Init")]
+    [Migration("20190504022455_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -76,6 +76,19 @@ namespace CCMS.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("CCMS.Models.ActivityCode", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ActivityCodes");
+                });
+
             modelBuilder.Entity("CCMS.Models.Allotment", b =>
                 {
                     b.Property<long>("Id")
@@ -87,16 +100,40 @@ namespace CCMS.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("date");
 
-                    b.Property<long>("DepartmentID");
+                    b.Property<long>("ManagementUnitID");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DepartmentID");
+                    b.HasIndex("ManagementUnitID");
 
                     b.ToTable("Allotments");
                 });
 
-            modelBuilder.Entity("CCMS.Models.Department", b =>
+            modelBuilder.Entity("CCMS.Models.Employee", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("FirstName");
+
+                    b.Property<DateTime>("HireDate")
+                        .HasColumnType("Date");
+
+                    b.Property<string>("LastName");
+
+                    b.Property<long>("ManagementUnitId");
+
+                    b.Property<string>("MiddleName");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ManagementUnitId");
+
+                    b.ToTable("Employees");
+                });
+
+            modelBuilder.Entity("CCMS.Models.ManagementUnit", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -108,31 +145,7 @@ namespace CCMS.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Departments");
-                });
-
-            modelBuilder.Entity("CCMS.Models.Employee", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<long>("DepartmentId");
-
-                    b.Property<string>("FirstName");
-
-                    b.Property<DateTime>("HireDate")
-                        .HasColumnType("Date");
-
-                    b.Property<string>("LastName");
-
-                    b.Property<string>("MiddleName");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DepartmentId");
-
-                    b.ToTable("Employees");
+                    b.ToTable("ManagementUnits");
                 });
 
             modelBuilder.Entity("CCMS.Models.TimeOffAllowed", b =>
@@ -154,6 +167,28 @@ namespace CCMS.Migrations
                     b.HasIndex("EmployeeId");
 
                     b.ToTable("TimeOffAlloweds");
+                });
+
+            modelBuilder.Entity("CCMS.Models.TimeOffRequest", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("Date");
+
+                    b.Property<long>("RequesterId");
+
+                    b.Property<string>("Status");
+
+                    b.Property<DateTime>("SubmissionTimeStamp");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RequesterId");
+
+                    b.ToTable("TimeOffRequests");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -280,17 +315,17 @@ namespace CCMS.Migrations
 
             modelBuilder.Entity("CCMS.Models.Allotment", b =>
                 {
-                    b.HasOne("CCMS.Models.Department", "Department")
+                    b.HasOne("CCMS.Models.ManagementUnit", "ManagementUnit")
                         .WithMany("Allotments")
-                        .HasForeignKey("DepartmentID")
+                        .HasForeignKey("ManagementUnitID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("CCMS.Models.Employee", b =>
                 {
-                    b.HasOne("CCMS.Models.Department", "Department")
+                    b.HasOne("CCMS.Models.ManagementUnit", "ManagementUnit")
                         .WithMany("Employees")
-                        .HasForeignKey("DepartmentId")
+                        .HasForeignKey("ManagementUnitId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -299,6 +334,14 @@ namespace CCMS.Migrations
                     b.HasOne("CCMS.Models.Employee", "Employee")
                         .WithMany("TimeOffAlloweds")
                         .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("CCMS.Models.TimeOffRequest", b =>
+                {
+                    b.HasOne("CCMS.Models.Employee", "Requester")
+                        .WithMany("TimeOffRequests")
+                        .HasForeignKey("RequesterId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

@@ -13,7 +13,7 @@ namespace CCMS.Models
         public DateTime Date { get; set; }
         public int Allowed { get; set; }
 
-        public long DepartmentID { get; set; }
-        public Department Department { get; set; }
+        public long ManagementUnitID { get; set; }
+        public ManagementUnit ManagementUnit { get; set; }
     }
 }

@@ -9,7 +9,7 @@ namespace CCMS.ViewModel
     public class ViewEmployeeViewModel
     {
         public Employee Employee { get; set; }
-        public Department Department { get; set; }
+        public ManagementUnit ManagementUnit { get; set; }
         public IList<TimeOffAllowed> TimeOffAlloweds { get; set; }
     }
 }

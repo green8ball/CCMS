@@ -37,7 +37,7 @@ namespace CCMS.Controllers
         public IActionResult Index()
         {
             //ViewBag.Title = "Employee";
-            IList<Employee> employees = _context.Employees.Include(e => e.Department).ToList();
+            IList<Employee> employees = _context.Employees.Include(e => e.ManagementUnit).ToList();
             return View(employees);
         }
 
@@ -54,12 +54,12 @@ namespace CCMS.Controllers
             }
             //Employee employeeUser = _context.Employees.Single(e => e.Id.ToString() == _userManager.GetUserName(User));
             Employee employee = await _context.Employees.AsNoTracking().SingleAsync(e => e.Id == id);
-            Department department = await _context.Departments.AsNoTracking().SingleAsync(d => d.Id == employee.DepartmentId);
+            ManagementUnit ManagementUnit = await _context.ManagementUnits.AsNoTracking().SingleAsync(d => d.Id == employee.ManagementUnitId);
             IList<TimeOffAllowed> timeOffAlloweds = await _context.TimeOffAlloweds.AsNoTracking().Where(t => t.EmployeeId == id).ToListAsync();
             ViewEmployeeViewModel viewEmployeeViewModel = new ViewEmployeeViewModel
             {
                 Employee = employee,
-                Department = department,
+                ManagementUnit = ManagementUnit,
                 TimeOffAlloweds = timeOffAlloweds
             };
             return View(viewEmployeeViewModel);
@@ -68,7 +68,7 @@ namespace CCMS.Controllers
         [Authorize(Roles = "WFM, Admin, Human Resources")]
         public IActionResult Add()
         {
-            AddEmployeeViewModel addEmployeeViewModel = new AddEmployeeViewModel(_context.Departments.ToList());
+            AddEmployeeViewModel addEmployeeViewModel = new AddEmployeeViewModel(_context.ManagementUnits.ToList());
             return View(addEmployeeViewModel);
         }
 
@@ -84,14 +84,14 @@ namespace CCMS.Controllers
         {
             if(ModelState.IsValid)
             {
-                Department newEmployeeDepartment = _context.Departments.Single(d => d.Id == addEmployeeViewModel.DepartmentId);
+                ManagementUnit newEmployeeManagmentUnit = _context.ManagementUnits.Single(d => d.Id == addEmployeeViewModel.ManagementUnitId);
                 Employee newEmployee = new Employee
                 {
                     FirstName = addEmployeeViewModel.FirstName,
                     MiddleName = addEmployeeViewModel.MiddleName,
                     LastName = addEmployeeViewModel.LastName,
                     HireDate = addEmployeeViewModel.HireDate,
-                    Department = newEmployeeDepartment
+                    ManagementUnit = newEmployeeManagmentUnit
                 };
 
                 _context.Employees.Add(newEmployee);

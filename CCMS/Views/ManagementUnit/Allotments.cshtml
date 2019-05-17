@@ -16,7 +16,7 @@
         @foreach (var allotment in Model)
         {
             <tr>
-                <td><a asp-controller="Department" asp-action="EditAllotment" asp-route-id=@allotment.Id>@allotment.Date.Date.ToString("yyyy-MM-dd")</a></td>
+                <td><a asp-controller="ManagementUnit" asp-action="EditAllotment" asp-route-id=@allotment.Id>@allotment.Date.Date.ToString("yyyy-MM-dd")</a></td>
                 <td>@allotment.Date.Date.DayOfWeek.ToString().Substring(0,3)</td>
                 <td>@(allotment.Allowed / 8)</td>
             </tr>

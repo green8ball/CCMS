@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace CCMS.ViewModel
 {
-    public class AddDepartmentViewModel
+    public class AddManagementUnitViewModel
     {
         [Required]
-        [Display(Name="Department Name")]
+        [Display(Name="Management Unit Name")]
         public string Name { get; set; }
         [Display(Name="Description")]
         public string Description { get; set; }

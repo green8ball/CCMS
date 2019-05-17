@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace CCMS.ViewModel
 {
-    public class ViewDepartmentViewModel
+    public class ViewManagementUnitViewModel
     {
-        public Department Department { get; set; }
+        public ManagementUnit ManagementUnit { get; set; }
         public IList<int> AllotmentYears { get; set; }
     }
 }
