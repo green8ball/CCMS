@@ -22,6 +22,8 @@ namespace CCMS.Models
         public DbSet<TimeOffAllowed> TimeOffAlloweds { get; set; }
         public DbSet<TimeOffRequest> TimeOffRequests { get; set; }
         public DbSet<ActivityCode> ActivityCodes { get; set; }
+        public DbSet<SchedulePattern> SchedulePatterns { get; set; }
+        public DbSet<SchedulePatternRow> SchedulePatternRows { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
