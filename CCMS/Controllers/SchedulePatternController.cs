@@ -8,6 +8,7 @@ using CCMS.ViewModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace CCMS.Controllers
 {
@@ -31,10 +32,24 @@ namespace CCMS.Controllers
             _roleManager = roleManager;
         }
 
-        [Authorize(Roles = "WFM, Admin, Human Resources")]
+        [Authorize(Roles = "WFM, Admin")]
         public IActionResult Index()
+        {
+            IList<SchedulePattern> schedulePatterns = _context.SchedulePatterns.ToList();
+            return View(schedulePatterns);
+        }
+
+        public IActionResult Add()
         {
             return View();
         }
+
+        [HttpPost]
+        public IActionResult Add(SchedulePattern schedulePattern)
+        {
+            return Redirect("/Index");
+        }
+
+
     }
 }

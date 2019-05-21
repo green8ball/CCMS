@@ -10,6 +10,6 @@ namespace CCMS.Models
         public long Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public ICollection<SchedulePatternRow> Rows { get; set; }
+        public IList<SchedulePatternRow> Rows { get; set; }
     }
 }

@@ -1,0 +1,73 @@
+﻿@model List<CCMS.Models.SchedulePattern>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+<p><a asp-controller="SchedulePattern" asp-action="Add">Add SchedulePattern</a></p>
+<table class="table">
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>+</th>
+    </tr>
+    <tbody id="SchedulePatterns">
+        @foreach (var pattern in Model)
+        {
+            <tr>
+                <td></td>
+                <td>
+                    <button claas="btn btn-primary" type="button" data-toggle="collapse" data-target="#@pattern.Id" aria-expanded="false" aria-controls="@pattern.Id">
+                        Expand
+                    </button>
+                </td>
+                <div class="collapse" id="@pattern.Id">
+                    <table class="table">
+                        <tr>
+                            <th>ID</th>
+                            <th>WeekNumber</th>
+                            <th>DOW</th>
+                            <th>Time In</th>
+                            <th>Time Out</th>
+                        </tr>
+                        <tbody id="@pattern.Id">
+                            @foreach (var row in pattern.Rows)
+                            {
+                                <td>@row.Id</td>
+                                <td>@row.WeekNumber</td>
+                                <td>
+                                    <table class="table">
+                                        <tr>
+                                            <th>M</th>
+                                            <th>T</th>
+                                            <th>W</th>
+                                            <th>R</th>
+                                            <th>F</th>
+                                            <th>S</th>
+                                            <th>U</th>
+                                        </tr>
+                                        <tbody id="@row.Id">
+                                            <tr>
+                                                <td type="checkbox" value="@row.Mon"></td>
+                                                <td type="checkbox" value="@row.Tue"></td>
+                                                <td type="checkbox" value="@row.Wed"></td>
+                                                <td type="checkbox" value="@row.Thu"></td>
+                                                <td type="checkbox" value="@row.Fri"></td>
+                                                <td type="checkbox" value="@row.Sat"></td>
+                                                <td type="checkbox" value="@row.Sun"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                                <td>@row.TimeIn</td>
+                                <td>@row.TimeOut</td>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </tr>
+        }
+    </tbody>
+</table>
